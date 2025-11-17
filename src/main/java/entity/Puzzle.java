@@ -8,6 +8,7 @@ public abstract class Puzzle {
     private final String description;
     private boolean isSolved;
     private int attempts;
+    private string hint;
  /*   private int suceessesToPass;*/
 
     /**
@@ -20,7 +21,8 @@ public abstract class Puzzle {
         this.description = description;
         this.isSolved = false;
         this.attempts = 0;
- /*       this.suceessesToPass = successes;*/
+//        this.suceessesToPass = successes;
+//        this.hint = this.solve();
     }
 
     // Getters
@@ -28,8 +30,7 @@ public abstract class Puzzle {
         return id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription() { return description;
     }
 
     public boolean getIsSolved() {
@@ -47,7 +48,10 @@ public abstract class Puzzle {
 
     public abstract boolean validateSolution(String solution); // Abstract method validating whether a solution is correct or not
 
-    public abstract String giveHint(); // Abstract method returning a string of hints for a puzzle
+    // Returning a string of hints for a puzzle
+    public String giveHint() {
+        return this.hint;
+    }
 
     // Marking a puzzle solved
     public void markSolved() {

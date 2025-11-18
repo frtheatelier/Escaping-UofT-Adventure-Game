@@ -1,0 +1,1 @@
+// afaik there is no "data" involved in quitting.

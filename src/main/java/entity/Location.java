@@ -11,11 +11,12 @@ public class Location {
     private String coordinates; // NSEW
     // might replace COORDINATES with the location name when selecting which locations to move to
 
-    public Location(String name, String description, boolean locked, String coordinates) {
+    public Location(String name, String description, boolean locked, String coordinates, Puzzle puzzle) {
         this.name = name;
         this.description = description;
         this.isLocked = locked;
         this.coordinates = coordinates;
+        this.puzzle = puzzle;
     }
 
     // setters and getters

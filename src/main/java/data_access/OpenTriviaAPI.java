@@ -1,6 +1,6 @@
-package main.java.data_access;
+package data_access;
 
-import main.java.use_case.trivia_game.TriviaGameDataAccessInterface;
+import use_case.trivia_game.TriviaGameDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

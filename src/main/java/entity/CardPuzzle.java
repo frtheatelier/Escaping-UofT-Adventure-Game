@@ -15,6 +15,7 @@ public class CardPuzzle extends Puzzle {
                     "Try to connect them using \"+\", \"-\", \"*\", \"/\", and parentheses " +
                     "to get an expression that evaluates to 24!";
     private String hint;
+    private static final String NAME = "CardPuzzle";
 
     /**
      * Creates a new card puzzle with the given id and cards.
@@ -23,7 +24,7 @@ public class CardPuzzle extends Puzzle {
      */
 
     public CardPuzzle(String id, List<Card> cards) {
-        super(id, DESCRIPTION);
+        super(id, DESCRIPTION, NAME);
         this.cards = cards;
         this.sampleSolution = this.solve();
         String inner = this.extractInner();
@@ -44,8 +45,7 @@ public class CardPuzzle extends Puzzle {
             open = sol.indexOf("(");
             close = sol.indexOf(")");
         }
-        String result = sol.substring(open + 1, close);
-        return result;
+        return sol.substring(open + 1, close);
     }
 
     public String giveHint() {

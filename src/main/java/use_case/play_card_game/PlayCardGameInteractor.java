@@ -16,7 +16,7 @@ public class PlayCardGameInteractor implements PlayCardGameInputBoundary{
     }
 
     @Override
-    public void execute(PlayCardGameInputData playCardData) {
+    public void execute() {
         try {
             List<Card> cards = this.cardGameDataAccessObject.drawCards(4);
             while (!SolutionGenerator.isSolvable(cards)) {

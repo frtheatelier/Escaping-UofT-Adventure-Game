@@ -14,7 +14,7 @@ public class ValidateCardAnswerInputData {
     private final List<Card> cards;
     private final CardPuzzle cardPuzzle;
 
-    public ValidateCardAnswerInputData(Player player, String expression,  List<Card> cards, CardPuzzle cardPuzzle) {
+    public ValidateCardAnswerInputData(Player player, String expression, List<Card> cards, CardPuzzle cardPuzzle) {
         this.player = player;
         this.expression = expression;
         this.cards = cards;

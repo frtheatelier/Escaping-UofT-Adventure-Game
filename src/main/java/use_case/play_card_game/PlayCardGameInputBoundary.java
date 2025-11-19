@@ -7,8 +7,7 @@ import use_case.play_card_game.PlayCardGameInputData;
 public interface PlayCardGameInputBoundary {
     /**
      * Execute the Play Card Game Use Case.
-     * @param playCardData the input data for this use case
      */
-    void execute(PlayCardGameInputData playCardData);
+    void execute();
 
 }

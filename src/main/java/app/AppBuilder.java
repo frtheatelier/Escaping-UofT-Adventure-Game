@@ -1,7 +1,7 @@
 package app;
 
-import main.java.interface_adapter.ViewManagerModel;
-import main.java.view.ViewManager;
+import interface_adapter.ViewManagerModel;
+import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +50,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getViewName());
+        viewManagerModel.setState(navigationView.getViewName());
         viewManagerModel.firePropertyChange();
 
         return application;

@@ -2,15 +2,14 @@ package use_case.card_game_hints;
 
 import data_access.CardHintsDataAccessObject;
 import entity.CardPuzzle;
-import java.util.*;
 
 public class CardGameHintsInteractor {
-    private final CardGameHintsOutputBoundary outputBoundary;
+    private final CardGameHintsOutputBoundary cardGamePresenter;
     private final CardHintsDataAccessObject hintDataAccess;
 
-    public CardGameHintsInteractor(CardGameHintsOutputBoundary outputBoundary,
+    public CardGameHintsInteractor(CardGameHintsOutputBoundary cardGamePresenter,
                                    CardHintsDataAccessObject hintDataAccess) {
-        this.outputBoundary = outputBoundary;
+        this.cardGamePresenter = cardGamePresenter;
         this.hintDataAccess = hintDataAccess;
     }
 
@@ -20,9 +19,9 @@ public class CardGameHintsInteractor {
             String hint = this.hintDataAccess.generateHint(cardPuzzle);
 
             CardGameHintsOutputDataObject outputData = new CardGameHintsOutputDataObject(hint);
-            this.outputBoundary.prepareSuccessView(outputData);
+            this.cardGamePresenter.prepareSuccessView(outputData);
         }  catch (Exception e) {
-            this.outputBoundary.prepareFailView("Failed to get hint: " + e.getMessage());
+            this.cardGamePresenter.prepareFailView("Failed to get hint: " + e.getMessage());
         }
     }
 }

@@ -15,7 +15,7 @@ public class TriviaPuzzle extends Puzzle {
      * @param requiredCorrectAnswers the number of correct answers needed to complete the puzzle
      */
     public TriviaPuzzle(int requiredCorrectAnswers) {
-        super("trivia", "Answer trivia questions correctly to earn a key");
+        super("", "Answer trivia questions correctly to earn a key", "trivia");
         this.requiredCorrectAnswers = requiredCorrectAnswers;
         this.correctAnswers = 0;
     }

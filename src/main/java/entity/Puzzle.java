@@ -8,6 +8,7 @@ public abstract class Puzzle {
     private final String description;
     private boolean isSolved;
     private int attempts;
+//    private string hint;
     private String name;
  /*   private int suceessesToPass;*/
 
@@ -69,5 +70,7 @@ public abstract class Puzzle {
         }
         return isSolved;
     }
+
+    public boolean isSolved() {return isSolved;}
 
 }

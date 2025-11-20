@@ -11,7 +11,7 @@ public class SaveGameDialog {
 
     private final JDialog dialog = new JDialog();
 
-    public SaveGameDialog() {
+    public SaveGameDialog(SaveProgressController saveProgressController) {
         this.setSaveGameController(saveProgressController);
 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

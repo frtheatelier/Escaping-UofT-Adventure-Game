@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import interface_adapter.quit_game.QuitGameController;
+import interface_adapter.save_progress.SaveProgressController;
 
 public class QuitGameDialog {
 //    private static final String viewName = "quit";
@@ -10,8 +11,8 @@ public class QuitGameDialog {
 
     private final JDialog dialog = new JDialog();
 
-    public QuitGameDialog() {
-        this.setQuitGameController(quitGameController);
+    public QuitGameDialog(QuitGameController quitGameController, SaveProgressController saveProgressController) {
+        this.setQuitGameController(quitGameController, saveProgressController);
 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
@@ -46,12 +47,13 @@ public class QuitGameDialog {
 //    }
 
     // set controllers
-    public void setQuitGameController(QuitGameController quitGameController) {
+    public void setQuitGameController(QuitGameController quitGameController,
+                                      SaveProgressController saveProgressController) {
         this.quitGameController = quitGameController;
 
         this.quitGameController.setShowSaveDialog(() -> {
             // This code runs when the user clicks Quit → controller.showSave()
-            SaveGameDialog saveDialog = new SaveGameDialog();
+            SaveGameDialog saveDialog = new SaveGameDialog(saveProgressController);
             saveDialog.show();
         });
     }

@@ -1,1 +1,7 @@
-main + app builder if needed idk
+package app;
+
+public class Main {
+    public static void main(String[] args) {
+        new AppBuilder().build();
+    }
+}

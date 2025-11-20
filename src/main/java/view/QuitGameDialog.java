@@ -1,10 +1,8 @@
-package main.java.view;
+package view;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import main.java.interface_adapter.quit_game.QuitGameController;
+import interface_adapter.quit_game.QuitGameController;
 //import main.java.interface_adapter.quit_game.QuitGamePresenter;
 
 public class QuitGameDialog {
@@ -14,7 +12,7 @@ public class QuitGameDialog {
     private final JButton quitGame;
     private final JButton cancel;
 
-    private static final JDialog quitGameDialog = new JDialog();
+    private final JDialog quitGameDialog = new JDialog();
 
     public QuitGameDialog() {
         final JLabel title = new JLabel("Quit Game?");
@@ -27,7 +25,7 @@ public class QuitGameDialog {
         quitGame.addActionListener(
                 evt -> {
                     closeDialog();
-                    quitGameController.execute();
+                    quitGameController.execute(); // show Save Game dialog
                 }
         );
 
@@ -64,5 +62,11 @@ public class QuitGameDialog {
     // set controllers
     public void setQuitGameController(QuitGameController quitGameController) {
         this.quitGameController = quitGameController;
+
+        this.quitGameController.setShowSaveDialog(() -> {
+            // This code runs when the user clicks Quit → controller.execute()
+            SaveGameDialog dialog = new SaveGameDialog();
+            dialog.show();
+        });
     }
 }

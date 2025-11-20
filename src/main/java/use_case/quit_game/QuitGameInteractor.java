@@ -1,6 +1,8 @@
-package main.java.use_case.quit_game;
+package use_case.quit_game;
 
 //import entity.User;
+import use_case.quit_game.QuitGameInputBoundary;
+import use_case.quit_game.QuitGameOutputBoundary;
 
 /**
  * The Login Interactor.

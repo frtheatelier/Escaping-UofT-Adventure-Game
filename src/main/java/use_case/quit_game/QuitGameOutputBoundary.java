@@ -1,4 +1,4 @@
-package main.java.use_case.quit_game;
+package use_case.quit_game;
 
 /**
  * The output boundary for the Login Use Case.

@@ -6,6 +6,7 @@ import interface_adapter.play_card_game.CardGameState;
 import interface_adapter.play_card_game.CardGameViewModel;
 import interface_adapter.play_card_game.CardGameController;
 import interface_adapter.card_game_hints.CardGameHintsController;
+import interface_adapter.return_from_card.ReturnFromCardController;
 import interface_adapter.validate_card_answer.ValidateCardController;
 import use_case.card_game_hints.CardGameHintsInputDataObject;
 import use_case.validateCardAnswer.ValidateCardAnswerInputData;
@@ -16,30 +17,42 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class CardGameView extends JPanel implements PropertyChangeListener {
+    // Controllers
     private CardGameController cardGameController;
     private CardGameHintsController cardGameHintsController;
     private ValidateCardController validateCardController;
+    private ReturnFromCardController returnFromCardController;
+    // Dialogue
+    private ReturnFromCardDialogue returnFromCardDialogue;
+    // ViewModel
     private CardGameViewModel cardGameViewModel;
-
+    // Name
     private final String viewName = "card game";
-
+    // Labels
     private final JLabel promptLabel = new JLabel("Math24: Please click on the " +
             "\"New Game\" button to start a new game!");
     private final JLabel hintLabel = new JLabel("");
     private final JLabel messageLabel = new JLabel("");
+    // Buttons
     private final JButton startButton = new JButton("New Game");
     private final JButton hintButton = new JButton("Generate Hint");
     private final JButton validateButton = new JButton("Check My Answer");
+    private final JButton returnButton = new JButton("Return");
+    // TextField
     private final JTextField answerField = new JTextField(20);
 
     public CardGameView(CardGameController cardGameController,
                         CardGameHintsController cardGameHintsController,
                         ValidateCardController validateCardController,
+                        ReturnFromCardController returnFromCardController,
+                        ReturnFromCardDialogue returnFromCardDialogue,
                         CardGameViewModel cardGameViewModel,
                         Player player) {
         this.cardGameController = cardGameController;
         this.cardGameHintsController = cardGameHintsController;
         this.validateCardController = validateCardController;
+        this.returnFromCardController = returnFromCardController;
+        this.returnFromCardDialogue = returnFromCardDialogue;
         this.cardGameViewModel = cardGameViewModel;
 
         cardGameViewModel.addPropertyChangeListener(this);
@@ -66,6 +79,7 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         buttonPanel.add(this.startButton);
         buttonPanel.add(this.hintButton);
         buttonPanel.add(this.validateButton);
+        buttonPanel.add(this.returnButton);
 
         // Putting together
         add(topPanel);
@@ -91,6 +105,10 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         ValidateCardAnswerInputData validationInputData = new ValidateCardAnswerInputData(player, userAnswer, cardPuzzle);
         validateButton.addActionListener(e -> {
             validateCardController.execute(validationInputData);
+        });
+
+        returnButton.addActionListener(e -> {
+            this.returnFromCardController.setShowQuitDialog(() -> returnFromCardDialogue.show());
         });
     }
 

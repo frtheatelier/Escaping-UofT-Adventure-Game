@@ -26,6 +26,8 @@ More adequately: the fucking game, I believe.
 ## `/entity`
 - ...just, entities. idk do what you must.
 - setters and getters usually.
+- make sure that the entity does not contain complex-ish functions
+  - e.g. movement, validation
 ## `/interface_adaptor`
 ### `ViewModel.java`
 - Consists of `viewName` (name of the current view), a `PropertyChangeSupport` variable from `java.beans`, and an unknown `state`

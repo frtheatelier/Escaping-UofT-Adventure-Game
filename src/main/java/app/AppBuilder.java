@@ -68,24 +68,13 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addClearHistoryUseCase() {
-        ClearHistoryOutputBoundary outputBoundary =
-                new ClearHistoryPresenter(clearHistoryViewModel);
-        ClearHistoryInputBoundary inputBoundary =
-                new ClearHistoryInteractor(outputBoundary);
-        ClearHistoryController controller =
-                new ClearHistoryController(inputBoundary);
-        navigateView.setClearHistoryController(controller);
-        return this;
-    }
-
     // Save Progress Use Case
     public AppBuilder addSaveProgressUseCase(SaveProgressDataAccessInterface saveGateway) {
         SaveProgressOutputBoundary presenter = new SaveProgressPresenter();
         SaveProgressInputBoundary interactor = new SaveProgressInteractor(saveGateway, presenter);
         SaveProgressController controller = new SaveProgressController(interactor);
 
-        NavigateView.setSaveProgressController(controller);
+        navigateView.setSaveProgressController(controller);
         return this;
     }
 
@@ -110,7 +99,7 @@ public class AppBuilder {
         ViewProgressInputBoundary interactor = new ViewProgressInteractor(viewGateway, presenter);
         ViewProgressController controller = new ViewProgressController(interactor);
 
-        NavigateView.setViewProgressController(controller);
+        navigateView.setViewProgressController(controller);
         return this;
     }
 
@@ -127,7 +116,7 @@ public class AppBuilder {
 
         // Register views
         addView(homeView, HomeView.VIEW_NAME);
-        addView(navigateView, NavigateView.VIEW_NAME);
+        addView(navigateView, NavigateView.VIEW_NAME); // TODO: navigateView extends JFrame, not JPanel. Switch navigateView to extend JPanel
         addView(instructionsView, InstructionsView.VIEW_NAME);
 
         // Add use cases

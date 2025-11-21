@@ -6,7 +6,7 @@ public interface NavigateOutputBoundary {
      * Called when navigation succeeds.
      * @param response navigation data (story text + direction)
      */
-    void prepareSuccessView(NavigateOutputData response);
+    void prepareSuccessView(NavigateOutputData2 response);
 
     /*
      * Called when navigation fails.

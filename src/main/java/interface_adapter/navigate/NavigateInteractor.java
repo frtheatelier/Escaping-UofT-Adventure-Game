@@ -1,4 +1,7 @@
 package use_case.navigate;
+import entity.*;
+
+import java.util.List;
 
 public class NavigateInteractor implements NavigateInputBoundary {
 
@@ -15,8 +18,10 @@ public class NavigateInteractor implements NavigateInputBoundary {
     public void execute(NavigateInputData inputData) {
         String direction = inputData.getDirection();
         String storyText = generateStoryForDirection(direction);
-        NavigateOutputData outputData =
-                new NavigateOutputData(storyText, direction);
+        String location = generateLocation(direction);
+        Puzzle puzzle = assignPuzzle(direction);
+        use_case.navigate.NavigateOutputData outputData =
+                new use_case.navigate.NavigateOutputData(storyText, direction, location, puzzle);
         navigatePresenter.present(outputData);
     }
 
@@ -35,6 +40,36 @@ public class NavigateInteractor implements NavigateInputBoundary {
                 return "You walk West toward the Quad...\n\nThe shadows grow deeper.";
             default:
                 return "You stand still, unsure where to go.";
+        }
+    }
+
+    private String generateLocation(String direction) {
+        switch (direction.toLowerCase()) {
+            case "North":
+                return "University College";
+            case "South":
+                return "Convocation Hall";
+            case "East":
+                return "Gerstein Library";
+            case "West":
+                return "Knox College";
+            default:
+                return "You stand still, unsure where to go.";
+        }
+    }
+
+    private Puzzle assignPuzzle(String direction) {
+        switch (direction.toLowerCase()) {
+            case "North":
+                return new CardPuzzle(new List<Card>); //hardcoded for now, TODO: change later
+            case "South":
+                return new WinCondition(0); //hardcoded for now, TODO: change later
+            case "East":
+                return new TriviaPuzzle(0); //hardcoded for now, TODO: change later
+            case "West":
+                return new CardPuzzle(new List<Card>); //hardcoded for now, TODO: change later
+            default:
+                return null;
         }
     }
 }

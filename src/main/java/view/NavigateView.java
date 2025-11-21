@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 
+import interface_adapter.navigate.NavigateController;
 import interface_adapter.clear_history.ClearHistoryViewModel;
 import view.QuitGameDialog;
 
@@ -10,8 +11,9 @@ import interface_adapter.save_progress.SaveProgressController;
 import interface_adapter.view_progress.ViewProgressController;
 import view.QuitGameDialog;
 
-
 import interface_adapter.quit_game.QuitGameController;
+
+import java.awt.event.ActionListener;
 
 public class NavigateView extends javax.swing.JFrame {
     private ClearHistoryViewModel clearHistoryViewModel;
@@ -20,7 +22,37 @@ public class NavigateView extends javax.swing.JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         createSaveProgressButton();
         createViewProgressButton();
+
+        // MAIN VIEW
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout (mainPanel, BoxLayout.Y_AXIS));
+
+        // title
+        JLabel title = new JLabel("Story");
+        title.setAlignmentX(CENTER_ALIGNMENT);
+        mainPanel.add(title);
+
+        // story text
+        JTextArea storyTextArea = new JTextArea(10, 40);
+        storyTextArea.setText("");
+        storyTextArea.setEditable(true);
+
+        // action dropdown
+        JPanel actionPanel = new JPanel();
+        String[] actions = {"Go North", "Go South", "Go East", "Go West"};
+        JComboBox<String> actionDropdown = new JComboBox<>(actions);
+
+        JButton actionButton = new JButton(">");
+        actionPanel.add(actionDropdown);
+        actionPanel.add(actionButton);
+        mainPanel.add(actionPanel);
+
+        // bottom buttons
+        JButton saveButton = new JButton("Save");
+        JButton viewProgressButton = new JButton("View Progress");
+        JButton quitButton = new JButton ("Quit");
     }
+
     // CONTROLLERS
     private QuitGameController quitGameController;
     private ClearHistoryController clearHistoryController;
@@ -88,6 +120,23 @@ public class NavigateView extends javax.swing.JFrame {
         this.viewProgressController = viewProgressController;
     }
 
+    // ACTION LISTENERS
+    public void setNavigateController(NavigateController navigateController) {
+           this.navigateController = navigateController;
+
+           actionButton.addActionListener(evt -> {
+               String selectedAction = (String) actionDropdown.getSelectedItem();
+               if (selectedAction != null && selectedAction.startsWith("Go ")) {
+                   String direction = selectedAction.split(" ")[1]; // Extract direction
+                   navigateController.execute(direction);
+               } else {
+                   JOptionPane.showMessageDialog(
+                           null,
+                           "You stand still, unsure where to go.");
+               }
+           });
+    }
+}
     public void setClearHistoryViewModel(ClearHistoryViewModel vm) {
         this.clearHistoryViewModel = vm;
         vm.addPropertyChangeListener(evt -> {

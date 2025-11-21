@@ -13,6 +13,7 @@ public class NavigatePresenter implements NavigateOutputBoundary {
     }
 
     public void prepareSuccessView(NavigateOutputData outputData) {
-        this.viewManagerModel.setState(// this should be the panel of teh game)
+        this.viewManagerModel.setState(// this should be the panel of teh game);
+                // all we need to do is to set the puzzle in the viewManagerModel
     }
 }

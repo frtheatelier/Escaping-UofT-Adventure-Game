@@ -12,4 +12,6 @@ public interface NavigateOutputBoundary {
      * Called when navigation fails.
      */
     void prepareFailView(String error);
+
+    void present(NavigateOutputData response);
 }

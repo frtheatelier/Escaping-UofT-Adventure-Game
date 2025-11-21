@@ -1,8 +1,7 @@
 package interface_adapter.navigate;
 
-import entity.Puzzle;
-import use_case.navigate.NavigateOutputData;
 import use_case.navigate.NavigateOutputBoundary;
+import use_case.navigate.NavigateOutputData;
 
 /**
  * Presenter for the Navigation use case.
@@ -13,6 +12,7 @@ public class NavigatePresenter implements NavigateOutputBoundary {
     public NavigatePresenter(NavigateViewModel navigateViewModel) {
         this.navigateViewModel = navigateViewModel;
     }
+
     @Override
     public void present(NavigateOutputData outputData) {
 
@@ -24,9 +24,14 @@ public class NavigatePresenter implements NavigateOutputBoundary {
         // Notify NavigateView to refresh UI
         navigateViewModel.firePropertyChanged();
     }
-  
+
+    @Override
     public void prepareSuccessView(NavigateOutputData outputData) {
-        this.viewManagerModel.setState(// this should be the panel of teh game);
-                // all we need to do is to set the puzzle in the viewManagerModel
+        this.viewManagerModel.setState();
+    }
+
+    @Override
+    public void prepareFailView(String error) {
+
     }
 }

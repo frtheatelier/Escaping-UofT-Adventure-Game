@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 
 import interface_adapter.navigate.NavigateController;
+import interface_adapter.clear_history.ClearHistoryViewModel;
 import view.QuitGameDialog;
 
 import interface_adapter.clear_history.ClearHistoryController;
@@ -15,6 +16,8 @@ import interface_adapter.quit_game.QuitGameController;
 import java.awt.event.ActionListener;
 
 public class NavigateView extends javax.swing.JFrame {
+    private ClearHistoryViewModel clearHistoryViewModel;
+
     public NavigateView() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         createSaveProgressButton();
@@ -53,6 +56,7 @@ public class NavigateView extends javax.swing.JFrame {
     // CONTROLLERS
     private QuitGameController quitGameController;
     private ClearHistoryController clearHistoryController;
+    public static final String VIEW_NAME = "navigate_view";
     private SaveProgressController saveProgressController;
     private ViewProgressController viewProgressController;
 
@@ -131,5 +135,12 @@ public class NavigateView extends javax.swing.JFrame {
                            "You stand still, unsure where to go.");
                }
            });
+    }
+}
+    public void setClearHistoryViewModel(ClearHistoryViewModel vm) {
+        this.clearHistoryViewModel = vm;
+        vm.addPropertyChangeListener(evt -> {
+            JOptionPane.showMessageDialog(this, vm.getMessage());
+        });
     }
 }

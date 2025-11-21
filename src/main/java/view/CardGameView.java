@@ -56,6 +56,9 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         this.cardGameViewModel = cardGameViewModel;
 
         cardGameViewModel.addPropertyChangeListener(this);
+
+        cardGameController.execute(); // HOPEFULLY inits puzzle data :")
+
         layoutBuilder();
         eventHandler(player);
     }

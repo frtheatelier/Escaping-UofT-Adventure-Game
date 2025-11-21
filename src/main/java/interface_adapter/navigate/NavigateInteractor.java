@@ -15,6 +15,7 @@ public class NavigateInteractor implements NavigateInputBoundary {
     public void execute(NavigateInputData inputData) {
         String direction = inputData.getDirection();
         String storyText = generateStoryForDirection(direction);
+        String location = "";
         NavigateOutputData outputData =
                 new NavigateOutputData(storyText, direction);
         navigatePresenter.present(outputData);

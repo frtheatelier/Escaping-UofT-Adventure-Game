@@ -1,8 +1,7 @@
 package use_case.validateCardAnswer;
 
 import entity.Card;
-import use_case.play_card_game.utilities.ExpressionEvaluator;
-import entity.Player;
+import use_case.validateCardAnswer.utilities.ExpressionEvaluator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +18,8 @@ public class ValidateCardAnswerInteractor implements ValidateCardAnswerInputBoun
 //        Player player = validateInputData.getPlayer();
         String expression =  validateInputData.getExpression();
         List<Card> cards = validateInputData.getCards();
+
+        System.out.println("(VC Interactor) Expression: " + expression + " ; Cards: " + cards);
 
         ValidateCardAnswerOutputData output;
 

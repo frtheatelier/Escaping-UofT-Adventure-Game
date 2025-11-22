@@ -52,12 +52,6 @@ public class NavigateView extends javax.swing.JPanel {
 //        setNavigateViewModel(navigateViewModel);
         this.navigateViewModel = navigateViewModel;
 
-//        navigateViewModel.addPropertyChangeListener(evt -> {
-//            NavigateState s = navigateViewModel.getState();
-//            storyArea.setText(s.getStoryText());
-//            keysLabel.setText("Keys: " + s.getNumberOfKeys() + " / 3");
-//        });
-
         this.setLayout(new BorderLayout());
         this.setBackground(Color.BLACK);
 

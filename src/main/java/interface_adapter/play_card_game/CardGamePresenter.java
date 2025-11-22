@@ -28,7 +28,7 @@ public class CardGamePresenter implements PlayCardGameOutputBoundary {
 //        cardGameViewModel.setState(current);
         cardGameViewModel.firePropertyChange();
 
-        System.out.println("Card Puzzle: " + outputData.getCardPuzzle().getCardNumbers());
+        System.out.println("(Presenter) Card Puzzle: " + outputData.getCardPuzzle().getCardNumbers());
 
         viewManagerModel.setState(cardGameViewModel.getViewName());
         viewManagerModel.firePropertyChange();

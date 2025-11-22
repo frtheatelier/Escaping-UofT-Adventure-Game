@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import entity.Card;
+import use_case.validateCardAnswer.utilities.ExpressionEvaluator;
 
 public class SolutionGenerator {
     private static final List<String> OPERATORS = Arrays.asList("+", "-", "*", "/");

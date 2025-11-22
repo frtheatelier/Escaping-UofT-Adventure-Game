@@ -1,7 +1,6 @@
 package view;
 
 import entity.CardPuzzle;
-import entity.Player;
 import interface_adapter.play_card_game.CardGameState;
 import interface_adapter.play_card_game.CardGameViewModel;
 import interface_adapter.play_card_game.CardGameController;
@@ -45,12 +44,6 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         this.cardGameViewModel = cardGameViewModel;
         cardGameViewModel.addPropertyChangeListener(this);
 
-//        try {
-//            cardGameController.execute(); // HOPEFULLY inits puzzle data :")
-//        } catch (NullPointerException e) {
-//            System.out.println("Card puzzle not implemented yet");
-//        }
-
         layoutBuilder();
         eventHandler();
     }
@@ -84,8 +77,11 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
 
         // Prompts
         JPanel topPanel =  new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         this.promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(this.promptLabel);
+        topPanel.add(Box.createVerticalStrut(20));
+//        this.messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(this.messageLabel);
         topPanel.add(this.hintLabel);
 
@@ -113,7 +109,6 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
             cardGameController.execute();
         });
 
-
         hintButton.addActionListener(e -> {
             CardGameState state = cardGameViewModel.getState();
             CardPuzzle cardPuzzle = state.getcardPuzzle();
@@ -126,6 +121,7 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         validateButton.addActionListener(e -> {
             CardGameState state = cardGameViewModel.getState();
             CardPuzzle cardPuzzle = state.getcardPuzzle();
+            System.out.println("(View) cards: " +  cardPuzzle.getCardNumberString());
             if (cardPuzzle != null) {
                 String userAnswer = answerField.getText().trim();
                 ValidateCardAnswerInputData validationInputData =
@@ -143,7 +139,8 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         CardGameState state = cardGameViewModel.getState();
-        messageLabel.setText(state.getMessage());
-        hintLabel.setText(state.getHint());
+
+        messageLabel.setText("<html>" + state.getMessage().replace("\n", "<br>") + "</html>");
+        hintLabel.setText("<html>" + state.getHint().replace("\n", "<br>") + "</html>");
     }
 }

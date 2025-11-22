@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.trivia_game.TriviaGameController;
 import interface_adapter.trivia_game.TriviaGameState;
 import interface_adapter.trivia_game.TriviaGameViewModel;
@@ -24,7 +25,7 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final JButton returnButton;
     private final JLabel messageLabel;
 
-    public TriviaGameView(TriviaGameViewModel viewModel) {
+    public TriviaGameView(TriviaGameViewModel viewModel, NavigateViewModel navigateViewModel) {
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
 
@@ -93,8 +94,7 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
         });
 
         returnButton.addActionListener(e -> {
-            viewManagerModel.setState("navigate");
-            viewManagerModel.firePropertyChange();
+            controller.exitPuzzle();
         });
 
         buttonPanel.add(newQuestionButton);

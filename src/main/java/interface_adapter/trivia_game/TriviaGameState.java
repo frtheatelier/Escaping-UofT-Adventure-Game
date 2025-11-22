@@ -8,6 +8,7 @@ public class TriviaGameState {
     private boolean puzzleSolved;
     private boolean answeredCurrentQuestion;
 
+    private String puzzleName = "trivia";
 
     public TriviaGameState() {
         this.question = "";
@@ -53,4 +54,6 @@ public class TriviaGameState {
     public void setAnsweredCurrentQuestion(boolean answered) {
         this.answeredCurrentQuestion = answered;
     }
+
+    public String getPuzzleName() { return puzzleName; }
 }

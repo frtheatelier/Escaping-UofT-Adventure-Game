@@ -16,12 +16,13 @@ public class NavigateInteractor implements NavigateInputBoundary {
     @Override
     public void execute(NavigateInputData inputData) {
         String direction = inputData.getDirection();
+        System.out.println("direction: " + direction + " ; target view: " + getTargetView(direction));
         navigatePresenter.prepareSuccessView(new NavigateOutputData2(getTargetView(direction)));
     }
 
     @NotNull
     private static String getTargetView(String direction) {
-        return switch (direction) {
+        return switch (direction.toLowerCase()) {
             case "north" -> "Card game";
             case "south" -> "Win game";
             case "east" -> "Trivia game";

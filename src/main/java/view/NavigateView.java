@@ -6,6 +6,7 @@ import interface_adapter.navigate.NavigateController;
 import interface_adapter.clear_history.ClearHistoryViewModel;
 
 import interface_adapter.clear_history.ClearHistoryController;
+import interface_adapter.navigate.NavigateState;
 import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.save_progress.SaveProgressController;
 import interface_adapter.view_progress.ViewProgressController;
@@ -47,7 +48,15 @@ public class NavigateView extends javax.swing.JPanel {
 
     private JLabel keysLabel;
 
-    public NavigateView() {
+    public NavigateView(NavigateViewModel navigateViewModel) {
+//        setNavigateViewModel(navigateViewModel);
+        this.navigateViewModel = navigateViewModel;
+
+//        navigateViewModel.addPropertyChangeListener(evt -> {
+//            NavigateState s = navigateViewModel.getState();
+//            storyArea.setText(s.getStoryText());
+//            keysLabel.setText("Keys: " + s.getNumberOfKeys() + " / 3");
+//        });
 
         this.setLayout(new BorderLayout());
         this.setBackground(Color.BLACK);
@@ -58,21 +67,38 @@ public class NavigateView extends javax.swing.JPanel {
         JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
         statusBar.setOpaque(false);
 
-        keysLabel = new JLabel("Keys: 0 / 3");
+        // init text
+        keysLabel = new JLabel("Keys: 0 / 2");
+        storyArea = new JTextArea("Welcome to Escaping UofT!\nSelect a direction to begin...");
+
+        // set up important text
+        if (navigateViewModel != null) {
+            keysLabel.setText("Keys: "+ navigateViewModel.getState().getNumberOfKeys() + " / 2");
+            storyArea.setText("Welcome to Escaping UofT!\nSelect a direction to begin...");
+
+            // actually calls on change lmao. did not know that.
+            navigateViewModel.addPropertyChangeListener(evt -> {
+                NavigateState s = navigateViewModel.getState();
+                storyArea.setText(s.getStoryText());
+                keysLabel.setText("Keys: " + s.getNumberOfKeys() + " / 2");
+            });
+        } else {
+            System.out.println("navigationViewModel is null");
+        }
+
+        // styling
         keysLabel.setForeground(Color.WHITE);
         keysLabel.setFont(new Font("Arial", Font.BOLD, 18));
-
-        statusBar.add(keysLabel);
-        topSection.add(statusBar, BorderLayout.NORTH);
-
-        storyArea = new JTextArea();
         storyArea.setEditable(false);
         storyArea.setLineWrap(true);
         storyArea.setWrapStyleWord(true);
         storyArea.setBackground(new Color(40, 40, 40));
         storyArea.setForeground(Color.WHITE);
         storyArea.setFont(new Font("Serif", Font.PLAIN, 22));
-        storyArea.setText("Welcome to Escaping UofT!\nSelect a direction to begin...");
+
+        // structure
+        statusBar.add(keysLabel);
+        topSection.add(statusBar, BorderLayout.NORTH);
 
         JScrollPane storyScroll = new JScrollPane(storyArea);
         storyScroll.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
@@ -154,6 +180,7 @@ public class NavigateView extends javax.swing.JPanel {
 
         directionSelector.addActionListener(e -> {
             if (navigateController != null) {
+                System.out.println("selected direction: " + directionSelector.getSelectedItem());
                 navigateController.execute((String) directionSelector.getSelectedItem());
             }
         });
@@ -240,8 +267,15 @@ public class NavigateView extends javax.swing.JPanel {
         this.winGameController = winGameController;
     }
 
-    // VIEW MODEL
+    // VIEW MODEL (WHY) TODO decide what to do man
     public void setNavigateViewModel(NavigateViewModel navigateViewModel) {
+        System.out.println("prop listener set");
+        navigateViewModel.addPropertyChangeListener(evt -> {
+            NavigateState state = navigateViewModel.getState();
+            storyArea.setText(state.getStoryText());
+            keysLabel.setText("Keys: " + state.getNumberOfKeys() + " / 3");
+        });
+
         this.navigateViewModel = navigateViewModel;
     }
 

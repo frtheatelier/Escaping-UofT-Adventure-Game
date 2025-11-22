@@ -37,7 +37,7 @@ public class NavigatePresenter implements NavigateOutputBoundary {
         state.setStoryText(outputData.getStoryText());
         state.setDirection(outputData.getDirection());
         // Notify NavigateView to refresh UI
-        navigateViewModel.firePropertyChanged();
+        navigateViewModel.firePropertyChange();
     }
 
     @Override

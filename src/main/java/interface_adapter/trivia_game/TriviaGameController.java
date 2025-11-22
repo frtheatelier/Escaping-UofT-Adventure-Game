@@ -18,4 +18,8 @@ public class TriviaGameController {
         TriviaGameInputData inputData = new TriviaGameInputData(answer, playerName);
         interactor.submitAnswer(inputData);
     }
+
+    public void exitPuzzle() {
+        interactor.exitPuzzle();
+    }
 }

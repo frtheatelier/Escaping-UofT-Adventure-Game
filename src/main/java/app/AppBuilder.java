@@ -165,7 +165,7 @@ public class AppBuilder {
         NavigateController controller = new NavigateController(interactor);
 
         navigateView.setNavigateController(controller);
-        navigateView.setNavigateViewModel(navigateViewModel);
+//        navigateView.setNavigateViewModel(navigateViewModel);
         return this;
     }
 
@@ -256,7 +256,7 @@ public class AppBuilder {
 
     // Trivia Use Case
     public AppBuilder addTriviaGameUseCase() {
-        TriviaGameOutputBoundary presenter = new TriviaGamePresenter(triviaGameViewModel);
+        TriviaGameOutputBoundary presenter = new TriviaGamePresenter(triviaGameViewModel, navigateViewModel, viewManagerModel);
         // ok IDK NUMBER OF CORRECT ANSWERS REQUIRED SO SKDJFHSLKDFKJ yea no shit
         // also why is the puzzle entity passed sdkjfhskdfhdskf aaaaaaaaaaaaaaa
         TriviaGameInputBoundary interactor = new TriviaGameInteractor(new OpenTriviaAPI(), presenter, new TriviaPuzzle(3));
@@ -300,10 +300,10 @@ public class AppBuilder {
 
         // Create Views
         homeView = new HomeView(viewManagerModel);
-        navigateView = new NavigateView();
+        navigateView = new NavigateView(navigateViewModel);
         instructionsView = new InstructionsView(); // i have. no idea if this exists and how it's implemented but go off
         cardGameView = new CardGameView(cardGameViewModel);
-        triviaGameView = new TriviaGameView(triviaGameViewModel);
+        triviaGameView = new TriviaGameView(triviaGameViewModel, navigateViewModel);
         winGameView = new WinGameView(winGameViewModel);
 //        saveGameDialog = new SaveGameDialog();
 //        quitGameDialog = new QuitGameDialog();

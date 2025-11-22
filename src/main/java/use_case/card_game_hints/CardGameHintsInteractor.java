@@ -5,7 +5,7 @@ import use_case.play_card_game.utilities.SolutionGenerator;
 
 import java.util.List;
 
-public class CardGameHintsInteractor {
+public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
     private final CardGameHintsOutputBoundary outputBoundary;
 
     public CardGameHintsInteractor(CardGameHintsOutputBoundary outputBoundary) {

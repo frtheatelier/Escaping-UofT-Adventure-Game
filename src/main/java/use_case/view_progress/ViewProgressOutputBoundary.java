@@ -1,5 +1,5 @@
 package use_case.view_progress;
 
-public interface WWViewProgressOutputBoundary {
+public interface ViewProgressOutputBoundary {
     void present(ViewProgressOutputData data);
 }

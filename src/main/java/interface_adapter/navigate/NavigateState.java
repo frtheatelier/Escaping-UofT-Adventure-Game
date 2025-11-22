@@ -10,6 +10,8 @@ public class NavigateState{
     private String storyText;
     private String direction;
 
+    // PROGRESS TEXT BECAUSE THE VIEW MODEL AINT SHIT
+    private String progressText = "";
 
     public NavigateState() {
 //        this.currentLocationName = "";
@@ -18,7 +20,8 @@ public class NavigateState{
         this.puzzlesSolved = new HashSet<>();
         this.numberOfKeys = 0;
     }
-
+    public String getProgressText() { return progressText; }
+    public void setProgressText(String progressText) { this.progressText = progressText; }
     public String getStoryText() {
         return storyText;
     }

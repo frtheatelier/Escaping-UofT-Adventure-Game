@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.trivia_game.TriviaGameController;
 import interface_adapter.trivia_game.TriviaGameState;
 import interface_adapter.trivia_game.TriviaGameViewModel;
@@ -12,8 +13,8 @@ import java.beans.PropertyChangeListener;
 
 public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final String viewName = "trivia game";
-    private final TriviaGameViewModel viewModel;
-    private final ViewManagerModel viewManagerModel;
+    private TriviaGameViewModel viewModel;
+    private ViewManagerModel viewManagerModel;
     private TriviaGameController controller;
 
     private final JLabel questionLabel;
@@ -24,9 +25,8 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final JButton returnButton;
     private final JLabel messageLabel;
 
-    public TriviaGameView(TriviaGameViewModel viewModel, ViewManagerModel viewManagerModel) {
+    public TriviaGameView(TriviaGameViewModel viewModel, NavigateViewModel navigateViewModel) {
         this.viewModel = viewModel;
-        this.viewManagerModel = viewManagerModel;
         this.viewModel.addPropertyChangeListener(this);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -94,14 +94,21 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
         });
 
         returnButton.addActionListener(e -> {
-            viewManagerModel.setState("navigate");
-            viewManagerModel.firePropertyChange();
+            controller.exitPuzzle();
         });
 
         buttonPanel.add(newQuestionButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(returnButton);
         add(buttonPanel);
+    }
+
+    public void setViewModel(TriviaGameViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void setViewManagerModel(ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override

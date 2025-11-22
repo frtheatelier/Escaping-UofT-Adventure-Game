@@ -1,6 +1,7 @@
 package use_case.validateCardAnswer;
 
 import entity.Card;
+import use_case.validateCardAnswer.utilities.Expression24Verifier;
 import use_case.validateCardAnswer.utilities.ExpressionEvaluator;
 
 import java.util.ArrayList;
@@ -39,17 +40,18 @@ public class ValidateCardAnswerInteractor implements ValidateCardAnswerInputBoun
 
     public CardValidationResult isSolution(String expression,  List<Card> cards) {
         try {
-            List<Integer> cardVals = new ArrayList<>();
-            for (Card card : cards) {
-                cardVals.add(card.getValue());
-            }
+//            List<Integer> cardVals = new ArrayList<>();
+//            for (Card card : cards) {
+//                cardVals.add(card.getValue());
+//            }
 
-            if (!ExpressionEvaluator.checkExprPrereq(expression, cardVals)) {
+            if (!expression.matches("[0-9+\\-*/()]+")) {
                 return new CardValidationResult(false, "Invalid use of card numbers and/or operators.");
             }
-            if (ExpressionEvaluator.evaluate(expression) != 24) {
+            if (!Expression24Verifier.isValidSolution(expression, cards)) {
                 return new CardValidationResult(false, "Expression does not add up to 24. Please try again.");
             }
+
             return new CardValidationResult(true, "Correct Answer!! It's UofT's honour to have smart people like you!");
         } catch (Exception e){
             return new CardValidationResult(false, "Evaluation error: " + e.getMessage());

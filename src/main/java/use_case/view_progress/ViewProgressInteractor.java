@@ -13,9 +13,12 @@ public class ViewProgressInteractor implements ViewProgressInputBoundary {
 
     @Override
     public void execute() {
+        System.out.println("Executing ViewProgressInteractor");
         String loc = dataAccess.getLocation();
         int keys = dataAccess.getKeysCollected();
         var puzzles = dataAccess.getSolvedPuzzles();
+
+        System.out.println(loc);
 
         ViewProgressOutputData output = new ViewProgressOutputData(loc, keys, puzzles);
         presenter.present(output);

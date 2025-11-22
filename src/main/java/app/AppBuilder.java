@@ -172,21 +172,22 @@ public class AppBuilder {
     // Clear History Use Case
     // i am... not entirely sure why there is a view model but go off ig
     public AppBuilder addClearHistoryUseCase() {
-        ClearHistoryOutputBoundary presenter = new ClearHistoryPresenter(clearHistoryViewModel);
+        ClearHistoryOutputBoundary presenter = new ClearHistoryPresenter(navigateViewModel);
         ClearHistoryInputBoundary interactor = new ClearHistoryInteractor(presenter);
         ClearHistoryController controller = new ClearHistoryController(interactor);
         controller.setShowConfirmDialog(() -> confirmRestartGameDialog.show());
 
         navigateView.setClearHistoryController(controller);
+        confirmRestartGameDialog = new ConfirmRestartGameDialog(controller);
 //        navigateView.setClearHistoryViewModel(clearHistoryViewModel);
-        confirmRestartGameDialog.setClearHistoryController(controller);
+//        confirmRestartGameDialog.setClearHistoryController(controller);
         return this;
     }
 
     // View Progress Use Case
     public AppBuilder addViewProgressUseCase() {
         viewProgressViewModel = new ViewProgressViewModel();
-        ViewProgressOutputBoundary presenter = new ViewProgressPresenter(viewProgressViewModel);
+        ViewProgressOutputBoundary presenter = new ViewProgressPresenter(navigateViewModel);
         ViewProgressInputBoundary interactor = new ViewProgressInteractor(fileGameDataAccessObject, presenter);
         // ngl i find this really dubious but fuck it i will FIGURE IT OUT
         ViewProgressController controller = new ViewProgressController(interactor);
@@ -307,7 +308,7 @@ public class AppBuilder {
 //        saveGameDialog = new SaveGameDialog();
 //        quitGameDialog = new QuitGameDialog();
 //        returnFromCardDialogue = new ReturnFromCardDialogue(new ReturnFromCardController());
-        confirmRestartGameDialog = new ConfirmRestartGameDialog();
+//        confirmRestartGameDialog = new ConfirmRestartGameDialog();
 
         // Set VM
 //        cardGameView.setCardGameViewModel(cardGameViewModel);
@@ -316,6 +317,7 @@ public class AppBuilder {
         navigateView.setClearHistoryViewModel(clearHistoryViewModel);
 
         // Register views
+        // switch the name to something from view model because consistency and also. what.
         addView(homeView, HomeView.VIEW_NAME);
         addView(navigateView, NavigateView.VIEW_NAME);
         addView(instructionsView, InstructionsView.VIEW_NAME);
@@ -341,7 +343,7 @@ public class AppBuilder {
         viewManagerModel.setState(initialViewName);
         viewManagerModel.firePropertyChange();
 
-        System.out.println(viewManagerModel.getState());
+        System.out.println("Current state: " + viewManagerModel.getState());
 
         window.setVisible(true);
         return window;

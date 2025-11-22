@@ -4,6 +4,8 @@ import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+// holy fucking shit what is this
+// KLJSDFHSLKFFEWLJK GUYS????
 
 public class NavigateViewModel extends ViewModel {
     public static final String TITLE = "Escaping UofT — Navigation";

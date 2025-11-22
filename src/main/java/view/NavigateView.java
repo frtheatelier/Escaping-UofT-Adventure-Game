@@ -13,6 +13,8 @@ import interface_adapter.view_progress.ViewProgressController;
 import interface_adapter.quit_game.QuitGameController;
 import interface_adapter.win_game.WinGameController;
 
+import java.awt.*;
+
 public class NavigateView extends javax.swing.JPanel {
     private ClearHistoryViewModel clearHistoryViewModel;
 
@@ -34,68 +36,135 @@ public class NavigateView extends javax.swing.JPanel {
     private SaveGameDialog saveGameDialog;
     private ConfirmRestartGameDialog confirmRestartGameDialog;
 
+    // NAV UI
+    private JTextArea storyArea;
+    private JComboBox<String> directionSelector;
+
+    private JButton restartButton;
+    private JButton progressButton;
+    private JButton saveButton;
+    private JButton quitButton;
+
+    private JLabel keysLabel;
+
     public NavigateView() {
-//        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // FIGURE OUT LAYOUT LATER FUCK
-        createSaveProgressButton();
-        createViewProgressButton();
 
-        // MAIN VIEW
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout (mainPanel, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.BLACK);
 
-        // title
-        JLabel title = new JLabel("Story");
-        title.setAlignmentX(CENTER_ALIGNMENT);
-        mainPanel.add(title);
+        JPanel topSection = new JPanel(new BorderLayout());
+        topSection.setBackground(Color.BLACK);
 
-        // story text
-        JTextArea storyTextArea = new JTextArea(10, 40);
-        storyTextArea.setText("");
-        storyTextArea.setEditable(true);
+        JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+        statusBar.setOpaque(false);
 
-        // action dropdown
-        JPanel actionPanel = new JPanel();
-        String[] actions = {"Go North", "Go South", "Go East", "Go West"};
-        JComboBox<String> actionDropdown = new JComboBox<>(actions);
-        JButton actionButton = new JButton(">");
+        keysLabel = new JLabel("Keys: 0 / 3");
+        keysLabel.setForeground(Color.WHITE);
+        keysLabel.setFont(new Font("Arial", Font.BOLD, 18));
 
-        actionButton.addActionListener(evt -> {
-            String selectedAction = (String) actionDropdown.getSelectedItem();
-            if (selectedAction.equals("Go South")) {
-                int keys = navigateViewModel.getState().getNumberOfKeys();
-                winGameController.execute(keys); // THIS IS NOT IMPLEMENTED YET BECAUSE FOR FUCKS SAKE THERE IS SO MANY PROBLEMS SDKFHDSLK GUYS
-                // GUYS
-                // WHY ARE YOU NOT
-                // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                // man i want to cry ts makes things convoluted i am understanding yet not understanding sdljkfhsjlkdfhdskjlfhsjkdfdsjlfk
-            }
+        statusBar.add(keysLabel);
+        topSection.add(statusBar, BorderLayout.NORTH);
 
-            if (selectedAction != null && selectedAction.startsWith("Go ")) {
-                String direction = selectedAction.split(" ")[1]; // Extract direction
-                navigateController.execute(direction);
-            } else {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "You stand still, unsure where to go.");
+        storyArea = new JTextArea();
+        storyArea.setEditable(false);
+        storyArea.setLineWrap(true);
+        storyArea.setWrapStyleWord(true);
+        storyArea.setBackground(new Color(40, 40, 40));
+        storyArea.setForeground(Color.WHITE);
+        storyArea.setFont(new Font("Serif", Font.PLAIN, 22));
+        storyArea.setText("Welcome to Escaping UofT!\nSelect a direction to begin...");
+
+        JScrollPane storyScroll = new JScrollPane(storyArea);
+        storyScroll.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
+        storyScroll.setPreferredSize(new Dimension(700, 300));
+
+        topSection.add(storyScroll, BorderLayout.CENTER);
+
+        this.add(topSection, BorderLayout.NORTH);
+
+        JPanel centerContainer = new JPanel();
+        centerContainer.setOpaque(false);
+        centerContainer.setLayout(new BoxLayout(centerContainer, BoxLayout.Y_AXIS));
+
+        centerContainer.add(Box.createVerticalGlue());
+
+        JPanel floatingBox = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 12));
+        floatingBox.setOpaque(true);
+        floatingBox.setBackground(new Color(20, 20, 20, 90));
+        floatingBox.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        JLabel dirLabel = new JLabel("Choose Direction:");
+        dirLabel.setForeground(Color.WHITE);
+        dirLabel.setFont(new Font("Arial", Font.BOLD, 18));
+
+        directionSelector = new JComboBox<>(new String[]{
+                "North", "South", "East", "West"
+        });
+        directionSelector.setPreferredSize(new Dimension(100, 28));
+        directionSelector.setFocusable(false);
+
+        floatingBox.add(dirLabel);
+        floatingBox.add(directionSelector);
+
+        centerContainer.add(floatingBox);
+        centerContainer.add(Box.createVerticalGlue());
+
+        this.add(centerContainer, BorderLayout.CENTER);
+
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 4, 20, 0));
+        bottomPanel.setBackground(Color.BLACK);
+
+        restartButton = makeButton("Restart");
+        progressButton = makeButton("Progress");
+        saveButton = makeButton("Save");
+        quitButton = makeButton("Quit");
+
+        bottomPanel.add(restartButton);
+        bottomPanel.add(progressButton);
+        bottomPanel.add(saveButton);
+        bottomPanel.add(quitButton);
+
+        this.add(bottomPanel, BorderLayout.SOUTH);
+
+        restartButton.addActionListener(e -> {
+            if (clearHistoryController != null) {
+                clearHistoryController.showConfirm();
             }
         });
 
-        actionPanel.add(actionDropdown);
-        actionPanel.add(actionButton);
-        mainPanel.add(actionPanel);
+        progressButton.addActionListener(e -> {
+            if (viewProgressController != null) {
+                viewProgressController.execute();
+                // show dialog
+                JDialog progressDialog = new ProgressDialog(navigateViewModel.getState().getProgressText());
+                progressDialog.setVisible(true);
+            }
+        });
 
-        // bottom buttons
-        JButton saveButton = createViewProgressButton();
-        JButton viewProgressButton = createViewProgressButton();
-        JButton quitButton = createQuitButton();
-        JButton clearHistoryButton = createClearHistoryButton();
+        saveButton.addActionListener(e -> {
+            if (saveProgressController != null)
+                saveProgressController.execute();
+        });
 
-        JPanel buttonPanel =  new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.add(saveButton);
-        buttonPanel.add(viewProgressButton);
-        buttonPanel.add(quitButton);
-        buttonPanel.add(clearHistoryButton);
+        quitButton.addActionListener(e -> {
+            if (quitGameController != null) {
+                quitGameController.showQuit();
+            }
+        });
+
+        directionSelector.addActionListener(e -> {
+            if (navigateController != null) {
+                navigateController.execute((String) directionSelector.getSelectedItem());
+            }
+        });
+    }
+
+    private JButton makeButton(String text) {
+        JButton b = new JButton(text);
+        b.setBackground(new Color(70, 70, 70));
+        b.setForeground(Color.WHITE);
+        b.setFont(new Font("Arial", Font.BOLD, 16));
+        return b;
     }
 
     // QUIT BUTTON ; feel free move the code to wherever makes sense
@@ -137,9 +206,13 @@ public class NavigateView extends javax.swing.JPanel {
         this.quitGameController = quitGameController;
 
         // set up runnable
+//        System.out.println("setting up runnable");
         this.quitGameDialog = new QuitGameDialog(quitGameController, saveProgressController);
         this.saveGameDialog = new SaveGameDialog(saveProgressController);
-        this.quitGameController.setShowQuitDialog(() -> quitGameDialog.show());
+        this.quitGameController.setShowQuitDialog(() -> {
+            System.out.println("Quitting (post)");
+            quitGameDialog.show();
+        });
         this.quitGameController.setShowSaveDialog(() -> saveGameDialog.show());
     }
 
@@ -148,7 +221,7 @@ public class NavigateView extends javax.swing.JPanel {
         this.clearHistoryController = clearHistoryController;
 
         // set up runnable
-        this.confirmRestartGameDialog = new ConfirmRestartGameDialog();
+        this.confirmRestartGameDialog = new ConfirmRestartGameDialog(clearHistoryController);
         this.clearHistoryController.setShowConfirmDialog(() -> confirmRestartGameDialog.show());
     }
 

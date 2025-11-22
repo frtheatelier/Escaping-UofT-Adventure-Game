@@ -24,7 +24,7 @@ public class SaveGameDialog extends JDialog {
         JButton quitWithoutSaving = new JButton("Quit without saving");
 
         saveAndQuit.addActionListener(e -> {
-            saveProgressController.execute();
+            this.saveProgressController.execute();
             closeGame();
         });
 

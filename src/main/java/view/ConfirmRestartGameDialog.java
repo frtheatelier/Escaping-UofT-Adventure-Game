@@ -5,47 +5,43 @@ import java.awt.*;
 
 import interface_adapter.clear_history.ClearHistoryController;
 
-public class ConfirmRestartGameDialog {
+public class ConfirmRestartGameDialog extends JDialog {
+
     private ClearHistoryController clearHistoryController;
 
-    private final JDialog dialog = new JDialog();
+    public ConfirmRestartGameDialog(ClearHistoryController clearHistoryController) {
 
-    public ConfirmRestartGameDialog() {
+        this.clearHistoryController = clearHistoryController;
 
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setTitle("Reset Progress");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        final JLabel title = new JLabel("Reset progress?");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title = new JLabel("Reset progress?");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
 
-        final JPanel buttons = new JPanel();
-        JButton clearHistory = new JButton("Reset");
+        JPanel buttons = new JPanel();
+        JButton reset = new JButton("Reset");
         JButton cancel = new JButton("Cancel");
 
-        clearHistory.addActionListener(evt -> {
-                dialog.dispose();
-                clearHistoryController.execute(); // clears history
-            }
-        );
+        reset.addActionListener(evt -> {
+            dispose();
+            this.clearHistoryController.execute();
+        });
 
-        cancel.addActionListener(evt -> dialog.dispose()
-        );
+        cancel.addActionListener(evt -> dispose());
 
-        buttons.add(clearHistory);
+        buttons.add(reset);
         buttons.add(cancel);
-        dialog.add(title, BorderLayout.NORTH);
-        dialog.add(buttons, BorderLayout.SOUTH);
+
+        add(title, BorderLayout.NORTH);
+        add(buttons, BorderLayout.SOUTH);
+
+        pack();
+        setLocationRelativeTo(null);
     }
 
-    public void show() {
-        dialog.setVisible(true);
-    }
-
-//    public String getViewName() {
-//        return viewName;
-//    }
-
-    // set controllers
-    public void setClearHistoryController(ClearHistoryController clearHistoryController) {
-        this.clearHistoryController = clearHistoryController;
+    public void showDialog() {
+        setVisible(true);
     }
 }

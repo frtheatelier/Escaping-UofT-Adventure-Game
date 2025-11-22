@@ -16,7 +16,7 @@ public class ValidateCardAnswerInteractor implements ValidateCardAnswerInputBoun
 
     @Override
     public void execute(ValidateCardAnswerInputData validateInputData) {
-        Player player = validateInputData.getPlayer();
+//        Player player = validateInputData.getPlayer();
         String expression =  validateInputData.getExpression();
         List<Card> cards = validateInputData.getCards();
 
@@ -26,7 +26,7 @@ public class ValidateCardAnswerInteractor implements ValidateCardAnswerInputBoun
         String message = validity.getMessage();
 
         if (validity.isValid()) {
-            player.markPuzzleSolved(validateInputData.getCardPuzzle().getName());
+//            player.markPuzzleSolved(validateInputData.getCardPuzzle().getName());
             // consider not doing this and instead updating the nav state (not sure about the player entity here)
             output = new ValidateCardAnswerOutputData(true,  message);
             this.validatePresenter.prepareSuccessView(output);

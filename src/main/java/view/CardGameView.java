@@ -41,26 +41,38 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
     // TextField
     private final JTextField answerField = new JTextField(20);
 
-    public CardGameView(CardGameController cardGameController,
-                        CardGameHintsController cardGameHintsController,
-                        ValidateCardController validateCardController,
-                        ReturnFromCardController returnFromCardController,
-                        ReturnFromCardDialogue returnFromCardDialogue,
-                        CardGameViewModel cardGameViewModel,
-                        Player player) {
-        this.cardGameController = cardGameController;
-        this.cardGameHintsController = cardGameHintsController;
-        this.validateCardController = validateCardController;
-        this.returnFromCardController = returnFromCardController;
-        this.returnFromCardDialogue = returnFromCardDialogue;
-        this.cardGameViewModel = cardGameViewModel;
+    public CardGameView() {
 
         cardGameViewModel.addPropertyChangeListener(this);
 
         cardGameController.execute(); // HOPEFULLY inits puzzle data :")
 
         layoutBuilder();
-        eventHandler(player);
+        eventHandler();
+    }
+
+    public void setCardGameController(CardGameController cardGameController) {
+        this.cardGameController = cardGameController;
+    }
+
+    public void setCardGameHintsController(CardGameHintsController cardGameHintsController) {
+        this.cardGameHintsController = cardGameHintsController;
+    }
+
+    public void setValidateCardController(ValidateCardController validateCardController) {
+        this.validateCardController = validateCardController;
+    }
+
+    public void setReturnFromCardController(ReturnFromCardController returnFromCardController) {
+        this.returnFromCardController = returnFromCardController;
+    }
+
+    public void setReturnFromCardDialogue(ReturnFromCardDialogue returnFromCardDialogue) {
+        this.returnFromCardDialogue = returnFromCardDialogue;
+    }
+
+    public void setCardGameViewModel(CardGameViewModel cardGameViewModel) {
+        this.cardGameViewModel = cardGameViewModel;
     }
 
     private void layoutBuilder() {
@@ -92,7 +104,7 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         add(buttonPanel);
     }
 
-    private void  eventHandler(Player player) {
+    private void  eventHandler() {
         startButton.addActionListener(e -> {
             cardGameController.execute();
         });
@@ -105,7 +117,7 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
 
         String userAnswer = answerField.getText().trim();
         // need to confirm how this is done
-        ValidateCardAnswerInputData validationInputData = new ValidateCardAnswerInputData(player, userAnswer, cardPuzzle);
+        ValidateCardAnswerInputData validationInputData = new ValidateCardAnswerInputData(userAnswer, cardPuzzle);
         // not sure if player is necessary?
         validateButton.addActionListener(e -> {
             validateCardController.execute(validationInputData);

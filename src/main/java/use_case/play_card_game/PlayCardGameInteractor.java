@@ -12,7 +12,7 @@ public class PlayCardGameInteractor implements PlayCardGameInputBoundary{
 
     private CardPuzzle cardPuzzle;
 
-    public PlayCardGameInteractor (CardGameDataAccessObject cardGameDataAccessObject,
+    public PlayCardGameInteractor (CardGameDataAccessInterface cardGameDataAccessObject,
         PlayCardGameOutputBoundary cardGamePresenter) {
         this.cardGameDataAccessObject = cardGameDataAccessObject;
         this.cardGamePresenter = cardGamePresenter;

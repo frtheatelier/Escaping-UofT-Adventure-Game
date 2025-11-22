@@ -10,8 +10,7 @@ public class ConfirmRestartGameDialog {
 
     private final JDialog dialog = new JDialog();
 
-    public ConfirmRestartGameDialog(ClearHistoryController clearHistoryController) {
-        this.setClearHistoryController(clearHistoryController);
+    public ConfirmRestartGameDialog() {
 
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 

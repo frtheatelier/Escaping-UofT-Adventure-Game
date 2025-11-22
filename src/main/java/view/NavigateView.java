@@ -6,10 +6,12 @@ import interface_adapter.navigate.NavigateController;
 import interface_adapter.clear_history.ClearHistoryViewModel;
 
 import interface_adapter.clear_history.ClearHistoryController;
+import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.save_progress.SaveProgressController;
 import interface_adapter.view_progress.ViewProgressController;
 
 import interface_adapter.quit_game.QuitGameController;
+import interface_adapter.win_game.WinGameController;
 
 public class NavigateView extends javax.swing.JPanel {
     private ClearHistoryViewModel clearHistoryViewModel;
@@ -22,6 +24,10 @@ public class NavigateView extends javax.swing.JPanel {
     private SaveProgressController saveProgressController;
     private ViewProgressController viewProgressController;
     private NavigateController navigateController;
+    private WinGameController winGameController;
+
+    // VIEW MODEL
+    private NavigateViewModel  navigateViewModel;
 
     // DIALOGS
     private QuitGameDialog quitGameDialog;
@@ -55,6 +61,15 @@ public class NavigateView extends javax.swing.JPanel {
 
         actionButton.addActionListener(evt -> {
             String selectedAction = (String) actionDropdown.getSelectedItem();
+            if (selectedAction.equals("Go South")) {
+                int keys = navigateViewModel.getState().getNumberOfKeys();
+                winGameController.execute(keys); // THIS IS NOT IMPLEMENTED YET BECAUSE FOR FUCKS SAKE THERE IS SO MANY PROBLEMS SDKFHDSLK GUYS
+                // GUYS
+                // WHY ARE YOU NOT
+                // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                // man i want to cry ts makes things convoluted i am understanding yet not understanding sdljkfhsjlkdfhdskjlfhsjkdfdsjlfk
+            }
+
             if (selectedAction != null && selectedAction.startsWith("Go ")) {
                 String direction = selectedAction.split(" ")[1]; // Extract direction
                 navigateController.execute(direction);
@@ -133,16 +148,28 @@ public class NavigateView extends javax.swing.JPanel {
         this.clearHistoryController = clearHistoryController;
 
         // set up runnable
-        this.confirmRestartGameDialog = new ConfirmRestartGameDialog(clearHistoryController);
+        this.confirmRestartGameDialog = new ConfirmRestartGameDialog();
         this.clearHistoryController.setShowConfirmDialog(() -> confirmRestartGameDialog.show());
     }
 
+    // SAVE PROGRESS CONTROLLER
     public void setSaveProgressController(SaveProgressController saveProgressController) {
         this.saveProgressController = saveProgressController;
     }
 
+    // VIEW PROGRESS CONTROLLER
     public void setViewProgressController(ViewProgressController viewProgressController) {
         this.viewProgressController = viewProgressController;
+    }
+
+    // WIN GAME CONTROLLER
+    public void setWinGameController(WinGameController winGameController) {
+        this.winGameController = winGameController;
+    }
+
+    // VIEW MODEL
+    public void setNavigateViewModel(NavigateViewModel navigateViewModel) {
+        this.navigateViewModel = navigateViewModel;
     }
 
     // ACTION LISTENERS

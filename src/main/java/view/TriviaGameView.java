@@ -12,8 +12,8 @@ import java.beans.PropertyChangeListener;
 
 public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final String viewName = "trivia game";
-    private final TriviaGameViewModel viewModel;
-    private final ViewManagerModel viewManagerModel;
+    private TriviaGameViewModel viewModel;
+    private ViewManagerModel viewManagerModel;
     private TriviaGameController controller;
 
     private final JLabel questionLabel;
@@ -24,9 +24,7 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final JButton returnButton;
     private final JLabel messageLabel;
 
-    public TriviaGameView(TriviaGameViewModel viewModel, ViewManagerModel viewManagerModel) {
-        this.viewModel = viewModel;
-        this.viewManagerModel = viewManagerModel;
+    public TriviaGameView() {
         this.viewModel.addPropertyChangeListener(this);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -102,6 +100,14 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(returnButton);
         add(buttonPanel);
+    }
+
+    public void setViewModel(TriviaGameViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void setViewManagerModel(ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override

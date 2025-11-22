@@ -11,17 +11,15 @@ import java.beans.PropertyChangeListener;
 
 public class WinGameView extends JPanel implements PropertyChangeListener {
     private final String viewName = "win game";
-    private final WinGameViewModel viewModel;
-    private final ViewManagerModel viewManagerModel;
+    private WinGameViewModel viewModel;
+    private ViewManagerModel viewManagerModel;
 
     private final JLabel titleLabel;
     private final JLabel messageLabel;
     private final JLabel keysLabel;
     private final JPanel buttonPanel;
 
-    public WinGameView(WinGameViewModel viewModel, ViewManagerModel viewManagerModel) {
-        this.viewModel = viewModel;
-        this.viewManagerModel = viewManagerModel;
+    public WinGameView() {
         this.viewModel.addPropertyChangeListener(this);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -47,6 +45,14 @@ public class WinGameView extends JPanel implements PropertyChangeListener {
         add(Box.createRigidArea(new Dimension(0, 30)));
         add(buttonPanel);
         add(Box.createVerticalGlue());
+    }
+
+    public void setViewModel(WinGameViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void setViewManagerModel(ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override

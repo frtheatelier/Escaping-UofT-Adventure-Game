@@ -19,8 +19,14 @@ public class WinGameView extends JPanel implements PropertyChangeListener {
     private final JLabel keysLabel;
     private final JPanel buttonPanel;
 
-    public WinGameView() {
-        this.viewModel.addPropertyChangeListener(this);
+    public WinGameView(WinGameViewModel viewModel) {
+        this.viewModel = viewModel;
+
+        try {
+            this.viewModel.addPropertyChangeListener(this);
+        } catch (NullPointerException e) {
+            System.out.println("Win view model could not be added.");
+        }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

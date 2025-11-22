@@ -41,11 +41,15 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
     // TextField
     private final JTextField answerField = new JTextField(20);
 
-    public CardGameView() {
-
+    public CardGameView(CardGameViewModel cardGameViewModel) {
+        this.cardGameViewModel = cardGameViewModel;
         cardGameViewModel.addPropertyChangeListener(this);
 
-        cardGameController.execute(); // HOPEFULLY inits puzzle data :")
+        try {
+            cardGameController.execute(); // HOPEFULLY inits puzzle data :")
+        } catch (NullPointerException e) {
+            System.out.println("Puzzle not implemented yet");
+        }
 
         layoutBuilder();
         eventHandler();

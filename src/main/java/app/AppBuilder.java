@@ -2,6 +2,7 @@ package app;
 
 import data_access.CardGameDataAccessObject;
 import data_access.FileGameDataAccessObject;
+import data_access.OpenTriviaAPI;
 import entity.Location;
 import entity.Player;
 import entity.TriviaPuzzle;
@@ -17,6 +18,7 @@ import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.play_card_game.CardGameController;
 import interface_adapter.play_card_game.CardGamePresenter;
 import interface_adapter.play_card_game.CardGameViewModel;
+import interface_adapter.quit_game.QuitGameController;
 import interface_adapter.return_from_card.ReturnFromCardController;
 import interface_adapter.return_from_card.ReturnFromCardPresenter;
 import interface_adapter.trivia_game.TriviaGameController;
@@ -75,7 +77,6 @@ import interface_adapter.view_progress.ViewProgressViewModel;
 import use_case.view_progress.ViewProgressInputBoundary;
 import use_case.view_progress.ViewProgressInteractor;
 import use_case.view_progress.ViewProgressOutputBoundary;
-import use_case.view_progress.ViewProgressDataAccessInterface;
 
 public class AppBuilder {
 
@@ -85,9 +86,7 @@ public class AppBuilder {
     public final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // DAO
-    private CardGameDataAccessInterface cardGameDataAccessObject;
-    private TriviaGameDataAccessInterface triviaGameDataAccessObject;
-    private SaveProgressDataAccessInterface fileGameDataAccessObject;
+    private FileGameDataAccessObject fileGameDataAccessObject;
 
     // ViewModels
     private NavigateViewModel navigateViewModel;
@@ -111,6 +110,9 @@ public class AppBuilder {
 
     // oh god the player. OH GOD THE PLAYER
     Player player;
+
+    // Interactor ?
+    private NavigateInteractor navigateInteractor;
 
     // Track screen
     private String initialViewName = null;
@@ -176,16 +178,17 @@ public class AppBuilder {
         controller.setShowConfirmDialog(() -> confirmRestartGameDialog.show());
 
         navigateView.setClearHistoryController(controller);
-        navigateView.setClearHistoryViewModel(clearHistoryViewModel);
+//        navigateView.setClearHistoryViewModel(clearHistoryViewModel);
         confirmRestartGameDialog.setClearHistoryController(controller);
         return this;
     }
 
     // View Progress Use Case
-    public AppBuilder addViewProgressUseCase(ViewProgressDataAccessInterface viewGateway) {
+    public AppBuilder addViewProgressUseCase() {
         viewProgressViewModel = new ViewProgressViewModel();
         ViewProgressOutputBoundary presenter = new ViewProgressPresenter(viewProgressViewModel);
-        ViewProgressInputBoundary interactor = new ViewProgressInteractor(viewGateway, presenter);
+        ViewProgressInputBoundary interactor = new ViewProgressInteractor(fileGameDataAccessObject, presenter);
+        // ngl i find this really dubious but fuck it i will FIGURE IT OUT
         ViewProgressController controller = new ViewProgressController(interactor);
 
         navigateView.setViewProgressController(controller);
@@ -196,18 +199,29 @@ public class AppBuilder {
     public AppBuilder addSaveProgressUseCase() {
         SaveProgressOutputBoundary presenter = new SaveProgressPresenter();
         SaveProgressInputBoundary interactor = new SaveProgressInteractor(fileGameDataAccessObject, presenter);
-        SaveProgressController controller = new SaveProgressController(interactor);
-        navigateView.setSaveProgressController(controller);
+        SaveProgressController saveController = new SaveProgressController(interactor);
+        navigateView.setSaveProgressController(saveController);
+
+        // Also the quit thing as well
+        QuitGameController quitController = new QuitGameController();
+        quitGameDialog = new QuitGameDialog(quitController, saveController);
+
+        // and save game
+        saveGameDialog = new SaveGameDialog(saveController);
+
+        // and navigate view
+        navigateView.setQuitGameController(quitController, saveController);
+
+        return this;
     }
 
     // Card Game Use Case
     public AppBuilder addCardGameUseCase() {
         // Main game
         PlayCardGameOutputBoundary cardPresenter = new CardGamePresenter(cardGameViewModel, viewManagerModel);
-        PlayCardGameInputBoundary cardInteractor = new PlayCardGameInteractor(cardGameDataAccessObject, cardPresenter);
+        PlayCardGameInputBoundary cardInteractor = new PlayCardGameInteractor(new CardGameDataAccessObject(), cardPresenter);
         CardGameController cardController = new CardGameController(cardInteractor);
         cardGameView.setCardGameController(cardController);
-        cardGameView.setCardGameViewModel(cardGameViewModel);
 
         // Hints
         CardGameHintsOutputBoundary hintsPresenter = new CardGameHintsPresenter(cardGameViewModel, viewManagerModel);
@@ -225,46 +239,81 @@ public class AppBuilder {
         CardReturnOutputBoundary returnPresenter = new ReturnFromCardPresenter(viewManagerModel, navigateViewModel, cardGameViewModel);
         CardReturnInputBoundary returnInteractor = new CardReturnInteractor(returnPresenter);
         ReturnFromCardController returnController = new ReturnFromCardController(returnInteractor);
+        returnFromCardDialogue = new ReturnFromCardDialogue(returnController);
         cardGameView.setReturnFromCardController(returnController);
         cardGameView.setReturnFromCardDialogue(returnFromCardDialogue);
 
+        addView(cardGameView, cardGameViewModel.getViewName());
         return this;
     }
 
+//    public ReturnFromCardDialogue createReturnFromCardDialogue() {
+//        CardReturnOutputBoundary returnPresenter = new ReturnFromCardPresenter(viewManagerModel, navigateViewModel, cardGameViewModel);
+//        CardReturnInputBoundary returnInteractor = new CardReturnInteractor(returnPresenter);
+//        ReturnFromCardController returnController = new ReturnFromCardController(returnInteractor);
+//     }
+
     // Trivia Use Case
-    public void addTriviaGameUseCase() {
+    public AppBuilder addTriviaGameUseCase() {
         TriviaGameOutputBoundary presenter = new TriviaGamePresenter(triviaGameViewModel);
         // ok IDK NUMBER OF CORRECT ANSWERS REQUIRED SO SKDJFHSLKDFKJ yea no shit
         // also why is the puzzle entity passed sdkjfhskdfhdskf aaaaaaaaaaaaaaa
-        TriviaGameInputBoundary interactor = new TriviaGameInteractor(triviaGameDataAccessObject, presenter, new TriviaPuzzle(3));
+        TriviaGameInputBoundary interactor = new TriviaGameInteractor(new OpenTriviaAPI(), presenter, new TriviaPuzzle(3));
+        // trivia game dao is opentriviaapi i believe???
         TriviaGameController controller = new TriviaGameController(interactor);
         triviaGameView.setController(controller);
         triviaGameView.setViewManagerModel(viewManagerModel);
-        triviaGameView.setViewModel(triviaGameViewModel);
+
+        addView(triviaGameView, triviaGameViewModel.getViewName());
+        return this;
+
+        // turns out there are little to no issues with the trivia game so if this fails im copying the other.
+        // like turns out we dont have to return "AppBuilder"???
     }
 
     // Win Game Use Case
-    public void addWinGameUseCase() {
+    public AppBuilder addWinGameUseCase() {
         WinGameOutputBoundary presenter = new WinGamePresenter(winGameViewModel, viewManagerModel);
         // THAT'S IT THIS ONE ALSO NEEDS CA CLEANUP AT LEAST A BIT DKJFHSDKL AAAAAAAAAAAAAAAAAA
         WinGameInputBoundary interactor = new WinGameInteractor(presenter, new WinCondition(2));
         WinGameController controller = new WinGameController(interactor);
         navigateView.setWinGameController(controller);
 
-        winGameView.setViewModel(winGameViewModel);
         winGameView.setViewManagerModel(viewManagerModel);
+
+        addView(winGameView, winGameViewModel.getViewName());
+        return this;
     }
 
-    public JFrame build() {
+    public JFrame build(String filepath) {
+        // DAO
+        fileGameDataAccessObject = new FileGameDataAccessObject(filepath);
 
         // ViewModels
         navigateViewModel = new NavigateViewModel();
         clearHistoryViewModel = new ClearHistoryViewModel();
+        cardGameViewModel = new CardGameViewModel();
+        triviaGameViewModel = new TriviaGameViewModel();
+        winGameViewModel = new WinGameViewModel();
+        viewProgressViewModel = new ViewProgressViewModel();
 
         // Create Views
         homeView = new HomeView(viewManagerModel);
         navigateView = new NavigateView();
-        instructionsView = new InstructionsView();
+        instructionsView = new InstructionsView(); // i have. no idea if this exists and how it's implemented but go off
+        cardGameView = new CardGameView(cardGameViewModel);
+        triviaGameView = new TriviaGameView();
+        winGameView = new WinGameView(winGameViewModel);
+//        saveGameDialog = new SaveGameDialog();
+//        quitGameDialog = new QuitGameDialog();
+//        returnFromCardDialogue = new ReturnFromCardDialogue(new ReturnFromCardController());
+        confirmRestartGameDialog = new ConfirmRestartGameDialog();
+
+        // Set VM
+        cardGameView.setCardGameViewModel(cardGameViewModel);
+        triviaGameView.setViewModel(triviaGameViewModel);
+        winGameView.setViewModel(winGameViewModel);
+        navigateView.setClearHistoryViewModel(clearHistoryViewModel);
 
         // Register views
         addView(homeView, HomeView.VIEW_NAME);
@@ -273,6 +322,12 @@ public class AppBuilder {
 
         // Add use cases
         addClearHistoryUseCase();
+        addCardGameUseCase();
+        addTriviaGameUseCase();
+        addWinGameUseCase();
+        addSaveProgressUseCase();
+        addViewProgressUseCase();
+        addNavigateUseCase();
 
         // Build window
         JFrame window = new JFrame("UofT Adventure Game");

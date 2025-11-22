@@ -45,10 +45,10 @@ public class TriviaGamePresenter implements TriviaGameOutputBoundary {
     @Override
     public void exitPuzzle() {
         TriviaGameState state = viewModel.getState();
+        NavigateState navState = navigateViewModel.getState();
 
-        if (state.isPuzzleSolved()) {
+        if (state.isPuzzleSolved() && !navState.getPuzzlesSolved().contains(state.getPuzzleName())) {
             System.out.println("Trivia Puzzle Solved");
-            NavigateState navState = navigateViewModel.getState();
             navState.addNumberOfKeys();
             navState.addPuzzleSolved(state.getPuzzleName());
             navState.setStoryText("Good job on solving the trivia puzzle.\nWhere would you like to go next?");

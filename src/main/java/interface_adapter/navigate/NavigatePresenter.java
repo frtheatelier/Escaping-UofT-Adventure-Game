@@ -45,10 +45,13 @@ public class NavigatePresenter implements NavigateOutputBoundary {
         switch (outputData.getTargetView().toLowerCase()) {
             case "win game":
                 this.viewManagerModel.setState(winGameViewModel.getViewName());
+                break;
             case "card game":
                 this.viewManagerModel.setState(cardGameViewModel.getViewName());
+                break;
             case "trivia game":
                 this.viewManagerModel.setState(triviaGameViewModel.getViewName());
+                break;
         }
 
         this.viewManagerModel.firePropertyChange();

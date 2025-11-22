@@ -25,6 +25,7 @@ public class ReturnFromCardPresenter implements CardReturnOutputBoundary{
         if (current.isSolved() && !state.getPuzzlesSolved().contains(current.getcardPuzzle().getName())) {
             state.addNumberOfKeys();
             state.addPuzzleSolved(current.getcardPuzzle().getName());
+            state.setStoryText("You solved the Math 24 puzzle! Where to next?");
             System.out.println("(Return Presenter) is solved? " + current.isSolved() + " Keys: " + state.getNumberOfKeys());
             // updates number of keys and puzzles solved in the view model if the puzzle is solved
 

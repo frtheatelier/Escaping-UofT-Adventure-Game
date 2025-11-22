@@ -24,12 +24,9 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final JButton returnButton;
     private final JLabel messageLabel;
 
-    public TriviaGameView() {
-        try {
-            this.viewModel.addPropertyChangeListener(this);
-        } catch (NullPointerException e) {
-            System.out.println("Trivia view model could not be added.");
-        }
+    public TriviaGameView(TriviaGameViewModel viewModel) {
+        this.viewModel = viewModel;
+        this.viewModel.addPropertyChangeListener(this);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

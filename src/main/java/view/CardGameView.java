@@ -45,11 +45,11 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         this.cardGameViewModel = cardGameViewModel;
         cardGameViewModel.addPropertyChangeListener(this);
 
-        try {
-            cardGameController.execute(); // HOPEFULLY inits puzzle data :")
-        } catch (NullPointerException e) {
-            System.out.println("Puzzle not implemented yet");
-        }
+//        try {
+//            cardGameController.execute(); // HOPEFULLY inits puzzle data :")
+//        } catch (NullPointerException e) {
+//            System.out.println("Card puzzle not implemented yet");
+//        }
 
         layoutBuilder();
         eventHandler();
@@ -113,18 +113,25 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
             cardGameController.execute();
         });
 
-        CardPuzzle cardPuzzle = this.cardGameViewModel.getState().getcardPuzzle();
-        CardGameHintsInputDataObject hintInputData = new CardGameHintsInputDataObject(cardPuzzle);
+
         hintButton.addActionListener(e -> {
-            cardGameHintsController.execute(hintInputData);
+            CardGameState state = cardGameViewModel.getState();
+            CardPuzzle cardPuzzle = state.getcardPuzzle();
+            if (cardPuzzle != null) {
+                CardGameHintsInputDataObject hintInputData = new CardGameHintsInputDataObject(cardPuzzle);
+                cardGameHintsController.execute(hintInputData);
+            }
         });
 
-        String userAnswer = answerField.getText().trim();
-        // need to confirm how this is done
-        ValidateCardAnswerInputData validationInputData = new ValidateCardAnswerInputData(userAnswer, cardPuzzle);
-        // not sure if player is necessary?
         validateButton.addActionListener(e -> {
-            validateCardController.execute(validationInputData);
+            CardGameState state = cardGameViewModel.getState();
+            CardPuzzle cardPuzzle = state.getcardPuzzle();
+            if (cardPuzzle != null) {
+                String userAnswer = answerField.getText().trim();
+                ValidateCardAnswerInputData validationInputData =
+                        new ValidateCardAnswerInputData(userAnswer, cardPuzzle);
+                validateCardController.execute(validationInputData);
+            }
         });
 
         returnButton.addActionListener(e -> {

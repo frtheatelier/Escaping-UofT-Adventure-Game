@@ -302,7 +302,7 @@ public class AppBuilder {
         navigateView = new NavigateView();
         instructionsView = new InstructionsView(); // i have. no idea if this exists and how it's implemented but go off
         cardGameView = new CardGameView(cardGameViewModel);
-        triviaGameView = new TriviaGameView();
+        triviaGameView = new TriviaGameView(triviaGameViewModel);
         winGameView = new WinGameView(winGameViewModel);
 //        saveGameDialog = new SaveGameDialog();
 //        quitGameDialog = new QuitGameDialog();
@@ -310,9 +310,9 @@ public class AppBuilder {
         confirmRestartGameDialog = new ConfirmRestartGameDialog();
 
         // Set VM
-        cardGameView.setCardGameViewModel(cardGameViewModel);
-        triviaGameView.setViewModel(triviaGameViewModel);
-        winGameView.setViewModel(winGameViewModel);
+//        cardGameView.setCardGameViewModel(cardGameViewModel);
+//        triviaGameView.setViewModel(triviaGameViewModel);
+//        winGameView.setViewModel(winGameViewModel);
         navigateView.setClearHistoryViewModel(clearHistoryViewModel);
 
         // Register views
@@ -340,6 +340,8 @@ public class AppBuilder {
         // Show initial view
         viewManagerModel.setState(initialViewName);
         viewManagerModel.firePropertyChange();
+
+        System.out.println(viewManagerModel.getState());
 
         window.setVisible(true);
         return window;

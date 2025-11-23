@@ -1,5 +1,5 @@
 package use_case.navigate;
-import entity.*;
+
 import org.jetbrains.annotations.NotNull;
 
 public class NavigateInteractor implements NavigateInputBoundary {
@@ -16,7 +16,6 @@ public class NavigateInteractor implements NavigateInputBoundary {
     @Override
     public void execute(NavigateInputData inputData) {
         String direction = inputData.getDirection();
-        System.out.println("direction: " + direction + " ; target view: " + getTargetView(direction));
         navigatePresenter.prepareSuccessView(new NavigateOutputData2(getTargetView(direction)));
     }
 

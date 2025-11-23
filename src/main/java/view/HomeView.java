@@ -10,14 +10,9 @@ public class HomeView extends JPanel {
 
     public static final String VIEW_NAME = "home_view";
 
-    private JButton startButton;
-    private final ViewManagerModel viewManagerModel;
+    private final JButton startButton;
 
     public HomeView(ViewManagerModel viewManagerModel) {
-        System.out.println("HOME VIEW CREATED");
-
-        this.viewManagerModel = viewManagerModel;
-
         this.setLayout(new BorderLayout());
         this.setBackground(Color.BLACK);
 
@@ -46,11 +41,8 @@ public class HomeView extends JPanel {
 
         // Navigation
         startButton.addActionListener(e -> {
-//            viewManagerModel.setState(NavigateView.VIEW_NAME);
             viewManagerModel.setState(new NavigateViewModel().getViewName()); // ????
             viewManagerModel.firePropertyChange();
-
-            System.out.println("Current state: " + viewManagerModel.getState());
         });
 
         bottom.add(startButton);

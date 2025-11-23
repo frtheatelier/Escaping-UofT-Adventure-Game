@@ -1,10 +1,8 @@
 package view;
 
-import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.trivia_game.TriviaGameController;
 import interface_adapter.trivia_game.TriviaGameState;
 import interface_adapter.trivia_game.TriviaGameViewModel;
-import interface_adapter.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +12,6 @@ import java.beans.PropertyChangeListener;
 public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final String viewName = "trivia game";
     private TriviaGameViewModel viewModel;
-    private ViewManagerModel viewManagerModel;
     private TriviaGameController controller;
 
     private final JLabel questionLabel;
@@ -25,7 +22,7 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
     private final JButton returnButton;
     private final JLabel messageLabel;
 
-    public TriviaGameView(TriviaGameViewModel viewModel, NavigateViewModel navigateViewModel) {
+    public TriviaGameView(TriviaGameViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
 
@@ -105,10 +102,6 @@ public class TriviaGameView extends JPanel implements PropertyChangeListener {
 
     public void setViewModel(TriviaGameViewModel viewModel) {
         this.viewModel = viewModel;
-    }
-
-    public void setViewManagerModel(ViewManagerModel viewManagerModel) {
-        this.viewManagerModel = viewManagerModel;
     }
 
     @Override

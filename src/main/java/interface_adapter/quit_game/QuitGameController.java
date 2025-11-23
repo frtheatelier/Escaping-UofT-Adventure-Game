@@ -20,7 +20,6 @@ public class QuitGameController {
     }
 
     public void showQuit() {
-        System.out.println("Quitting (pre)");
         showQuitDialog.run();
     }
 }

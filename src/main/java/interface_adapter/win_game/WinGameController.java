@@ -13,8 +13,4 @@ public class WinGameController {
     public void execute(WinGameInputData inputData) {
         interactor.attemptWin(inputData);
     }
-
-    public void execute(int keys) {
-
-    }
 }

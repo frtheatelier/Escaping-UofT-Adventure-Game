@@ -14,15 +14,10 @@ public class ValidateCardAnswerInputData {
     private final CardPuzzle cardPuzzle;
 
     public ValidateCardAnswerInputData(String expression, CardPuzzle cardPuzzle) {
-//        this.player = player;
         this.expression = expression;
         this.cards = cardPuzzle.getCards();
         this.cardPuzzle = cardPuzzle;
     }
-
-//    public Player getPlayer() {
-//        return this.player;
-//    }
 
     public String getExpression() {
         return this.expression;

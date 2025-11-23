@@ -26,8 +26,6 @@ public class CardGamePresenter implements PlayCardGameOutputBoundary {
         current.setHint(""); // remember when i said to not set hint? yea. i forgot it doesn't reset when person regenerates q
         cardGameViewModel.firePropertyChange();
 
-        System.out.println("(Presenter) Card Puzzle: " + outputData.getCardPuzzle().getCardNumbers());
-
         viewManagerModel.setState(cardGameViewModel.getViewName());
         viewManagerModel.firePropertyChange();
     }

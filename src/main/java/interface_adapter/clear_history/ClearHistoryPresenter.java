@@ -16,8 +16,6 @@ public class ClearHistoryPresenter implements ClearHistoryOutputBoundary {
     @Override
     public void execute() {
         NavigateState state = viewModel.getState();
-        System.out.println(state instanceof NavigateState);
-        System.out.println("Current state is: " + state + " ; Keys: " + state.getNumberOfKeys());
         state.setNumberOfKeys(0);
         state.resetPuzzlesSolved();
 

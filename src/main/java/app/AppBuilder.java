@@ -65,7 +65,6 @@ import interface_adapter.save_progress.SaveProgressPresenter;
 import use_case.save_progress.SaveProgressInputBoundary;
 import use_case.save_progress.SaveProgressInteractor;
 import use_case.save_progress.SaveProgressOutputBoundary;
-import use_case.save_progress.SaveProgressDataAccessInterface;
 
 // View Progress imports
 import interface_adapter.view_progress.ViewProgressController;
@@ -208,7 +207,7 @@ public class AppBuilder {
         cardGameView.setCardGameController(cardController);
 
         // Hints
-        CardGameHintsOutputBoundary hintsPresenter = new CardGameHintsPresenter(cardGameViewModel, viewManagerModel);
+        CardGameHintsOutputBoundary hintsPresenter = new CardGameHintsPresenter(cardGameViewModel);
         CardGameHintsInputDataBoundary hintsInteractor = new CardGameHintsInteractor(hintsPresenter);
         CardGameHintsController hintsController = new CardGameHintsController(hintsInteractor);
         cardGameView.setCardGameHintsController(hintsController);
@@ -240,7 +239,7 @@ public class AppBuilder {
         // trivia game dao is opentriviaapi i believe???
         TriviaGameController controller = new TriviaGameController(interactor);
         triviaGameView.setController(controller);
-        triviaGameView.setViewManagerModel(viewManagerModel);
+        triviaGameView.setViewManagerModel();
 
         addView(triviaGameView, triviaGameViewModel.getViewName());
         return this;
@@ -276,7 +275,7 @@ public class AppBuilder {
         navigateView = new NavigateView(navigateViewModel);
         instructionsView = new InstructionsView(); // i have. no idea if this exists and how it's implemented but go off
         cardGameView = new CardGameView(cardGameViewModel);
-        triviaGameView = new TriviaGameView(triviaGameViewModel, navigateViewModel);
+        triviaGameView = new TriviaGameView(triviaGameViewModel);
         winGameView = new WinGameView(winGameViewModel);
 
         // Set VM
@@ -308,8 +307,6 @@ public class AppBuilder {
         // Show initial view
         viewManagerModel.setState(initialViewName);
         viewManagerModel.firePropertyChange();
-
-        System.out.println("Current state: " + viewManagerModel.getState());
 
         window.setVisible(true);
         return window;

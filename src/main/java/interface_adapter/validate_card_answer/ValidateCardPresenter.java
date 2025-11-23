@@ -23,8 +23,6 @@ public class ValidateCardPresenter implements ValidateCardAnswerOutputBoundary {
         current.setSolved();
         current.setHint("");
 
-        System.out.println("(Presenter) is solved? " + current.isSolved());
-
         this.cardGameViewModel.firePropertyChange();
     }
 

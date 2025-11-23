@@ -6,8 +6,7 @@ public class Location {
     private Puzzle puzzle;
     private boolean isLocked;
     private boolean completed;
-    private String coordinates; // NSEW
-    // might replace COORDINATES with the location name when selecting which locations to move to
+    private final String coordinates; // NSEW
 
     public Location(String name, String description, boolean locked, String coordinates, Puzzle puzzle) {
         this.name = name;

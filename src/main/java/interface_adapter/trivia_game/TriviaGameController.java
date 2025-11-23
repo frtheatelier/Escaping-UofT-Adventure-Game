@@ -15,7 +15,7 @@ public class TriviaGameController {
     }
 
     public void submitAnswer(String answer, String playerName) {
-        TriviaGameInputData inputData = new TriviaGameInputData(answer, playerName);
+        TriviaGameInputData inputData = new TriviaGameInputData(answer);
         interactor.submitAnswer(inputData);
     }
 

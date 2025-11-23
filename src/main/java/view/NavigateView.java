@@ -48,8 +48,9 @@ public class NavigateView extends javax.swing.JPanel {
 
     private JLabel keysLabel;
 
+    private static final String FONT = "Arial";
+
     public NavigateView(NavigateViewModel navigateViewModel) {
-//        setNavigateViewModel(navigateViewModel);
         this.navigateViewModel = navigateViewModel;
 
         this.setLayout(new BorderLayout());
@@ -82,7 +83,7 @@ public class NavigateView extends javax.swing.JPanel {
 
         // styling
         keysLabel.setForeground(Color.WHITE);
-        keysLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        keysLabel.setFont(new Font(FONT, Font.BOLD, 18));
         storyArea.setEditable(false);
         storyArea.setLineWrap(true);
         storyArea.setWrapStyleWord(true);
@@ -115,7 +116,7 @@ public class NavigateView extends javax.swing.JPanel {
 
         JLabel dirLabel = new JLabel("Choose Direction:");
         dirLabel.setForeground(Color.WHITE);
-        dirLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        dirLabel.setFont(new Font(FONT, Font.BOLD, 18));
 
         directionSelector = new JComboBox<>(new String[]{
                 "North", "South", "East", "West"
@@ -158,7 +159,6 @@ public class NavigateView extends javax.swing.JPanel {
                 viewProgressController.execute(state.getLocation(), state.getNumberOfKeys(), state.getPuzzlesSolved());
                 // show dialog
                 JDialog progressDialog = new ProgressDialog(state.getProgressText());
-//                JDialog progressDialog = new ProgressDialog(progress[0]);
                 progressDialog.setVisible(true);
             }
         });
@@ -187,43 +187,8 @@ public class NavigateView extends javax.swing.JPanel {
         JButton b = new JButton(text);
         b.setBackground(new Color(70, 70, 70));
         b.setForeground(Color.WHITE);
-        b.setFont(new Font("Arial", Font.BOLD, 16));
+        b.setFont(new Font(FONT, Font.BOLD, 16));
         return b;
-    }
-
-    // QUIT BUTTON ; feel free move the code to wherever makes sense
-    private JButton createQuitButton() {
-        JButton quit = new JButton("Quit");
-        quit.addActionListener(evt -> quitGameController.showQuit());
-
-        return quit;
-    }
-
-    // CLEAR HISTORY BUTTON ; feel free move the code to wherever makes sense
-    private JButton createClearHistoryButton() {
-        JButton restart = new JButton("Restart");
-        restart.addActionListener(evt -> clearHistoryController.showConfirm());
-
-        return restart;
-    }
-
-    // SAVE PROGRESS BUTTON
-    private JButton createSaveProgressButton() {
-        JButton save = new JButton("Save");
-        NavigateState s = navigateViewModel.getState();
-        save.addActionListener(evt -> saveProgressController.execute(s.getLocation(), s.getNumberOfKeys(), s.getPuzzlesSolved()));
-//        add(save);
-
-        return save;
-    }
-
-    // VIEW PROGRESS BUTTON
-    private JButton createViewProgressButton() {
-        JButton view = new JButton("View Progress");
-        NavigateState state = navigateViewModel.getState();
-        viewProgressController.execute(state.getLocation(), state.getNumberOfKeys(), state.getPuzzlesSolved());
-//        add(view);
-        return view;
     }
 
     // QUIT GAME CONTROLLER
@@ -232,13 +197,9 @@ public class NavigateView extends javax.swing.JPanel {
         this.quitGameController = quitGameController;
 
         // set up runnable
-//        System.out.println("setting up runnable");
         this.quitGameDialog = new QuitGameDialog(quitGameController, saveProgressController, navigateViewModel);
         this.saveGameDialog = new SaveGameDialog(saveProgressController, navigateViewModel);
-        this.quitGameController.setShowQuitDialog(() -> {
-            System.out.println("Quitting (post)");
-            quitGameDialog.show();
-        });
+        this.quitGameController.setShowQuitDialog(() -> quitGameDialog.show());
         this.quitGameController.setShowSaveDialog(() -> saveGameDialog.show());
     }
 
@@ -266,18 +227,6 @@ public class NavigateView extends javax.swing.JPanel {
         this.winGameController = winGameController;
     }
 
-    // VIEW MODEL (WHY) TODO decide what to do man
-    public void setNavigateViewModel(NavigateViewModel navigateViewModel) {
-        System.out.println("prop listener set");
-        navigateViewModel.addPropertyChangeListener(evt -> {
-            NavigateState state = navigateViewModel.getState();
-            storyArea.setText(state.getStoryText());
-            keysLabel.setText("Keys: " + state.getNumberOfKeys() + " / 3");
-        });
-
-        this.navigateViewModel = navigateViewModel;
-    }
-
     // ACTION LISTENERS
     public void setNavigateController(NavigateController navigateController) {
            this.navigateController = navigateController;
@@ -285,8 +234,6 @@ public class NavigateView extends javax.swing.JPanel {
 
     public void setClearHistoryViewModel(ClearHistoryViewModel vm) {
         this.clearHistoryViewModel = vm;
-        vm.addPropertyChangeListener(evt -> {
-            JOptionPane.showMessageDialog(this, vm.getMessage());
-        });
+        vm.addPropertyChangeListener(evt -> JOptionPane.showMessageDialog(this, vm.getMessage()));
     }
 }

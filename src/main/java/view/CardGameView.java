@@ -81,7 +81,6 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         this.promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(this.promptLabel);
         topPanel.add(Box.createVerticalStrut(20));
-//        this.messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(this.messageLabel);
         topPanel.add(this.hintLabel);
 
@@ -105,9 +104,7 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
     }
 
     private void  eventHandler() {
-        startButton.addActionListener(e -> {
-            cardGameController.execute();
-        });
+        startButton.addActionListener(e -> cardGameController.execute());
 
         hintButton.addActionListener(e -> {
             CardGameState state = cardGameViewModel.getState();
@@ -121,7 +118,6 @@ public class CardGameView extends JPanel implements PropertyChangeListener {
         validateButton.addActionListener(e -> {
             CardGameState state = cardGameViewModel.getState();
             CardPuzzle cardPuzzle = state.getcardPuzzle();
-            System.out.println("(View) cards: " +  cardPuzzle.getCardNumberString());
             if (cardPuzzle != null) {
                 String userAnswer = answerField.getText().trim();
                 ValidateCardAnswerInputData validationInputData =

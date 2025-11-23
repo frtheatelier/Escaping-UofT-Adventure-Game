@@ -28,7 +28,6 @@ public class ReturnFromCardPresenter implements CardReturnOutputBoundary{
             state.addNumberOfKeys();
             state.addPuzzleSolved(current.getcardPuzzle().getName());
             state.setStoryText("You solved the Math 24 puzzle! Where to next?");
-            System.out.println("(Return Presenter) is solved? " + current.isSolved() + " Keys: " + state.getNumberOfKeys());
         }
         state.setLocation();
         this.navigateViewModel.firePropertyChange();

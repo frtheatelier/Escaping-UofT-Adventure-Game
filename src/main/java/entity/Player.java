@@ -2,8 +2,6 @@ package entity;
 
 import java.util.*;
 
-import entity.Location;
-
 public class Player {
 
 //    private final String name;

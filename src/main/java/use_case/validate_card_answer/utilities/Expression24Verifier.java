@@ -1,4 +1,4 @@
-package use_case.validateCardAnswer.utilities;
+package use_case.validate_card_answer.utilities;
 
 import entity.Card;
 

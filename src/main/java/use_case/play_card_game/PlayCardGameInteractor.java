@@ -1,8 +1,6 @@
 package use_case.play_card_game;
 
 import entity.*;
-import data_access.CardGameDataAccessObject;
-import use_case.play_card_game.utilities.SolutionGenerator;
 import use_case.play_card_game.utilities.TwentyFourChecker;
 
 import java.util.*;

@@ -1,7 +1,5 @@
 package entity;
 
-import entity.Puzzle;
-
 public class Location {
     private final String name;
     private final String description;

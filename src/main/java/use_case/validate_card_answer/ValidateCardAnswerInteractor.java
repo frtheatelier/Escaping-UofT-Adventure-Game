@@ -1,10 +1,8 @@
-package use_case.validateCardAnswer;
+package use_case.validate_card_answer;
 
 import entity.Card;
-import use_case.validateCardAnswer.utilities.Expression24Verifier;
-import use_case.validateCardAnswer.utilities.ExpressionEvaluator;
+import use_case.validate_card_answer.utilities.Expression24Verifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ValidateCardAnswerInteractor implements ValidateCardAnswerInputBoundary {

@@ -1,8 +1,7 @@
 package interface_adapter.validate_card_answer;
 
-import use_case.validateCardAnswer.ValidateCardAnswerInputBoundary;
-import use_case.validateCardAnswer.ValidateCardAnswerInteractor;
-import use_case.validateCardAnswer.ValidateCardAnswerInputData;
+import use_case.validate_card_answer.ValidateCardAnswerInputBoundary;
+import use_case.validate_card_answer.ValidateCardAnswerInputData;
 
 /**
  * Controller for the Validate Card Answer Use Case.

@@ -8,14 +8,7 @@ public abstract class Puzzle {
     private final String description;
     private boolean isSolved;
     private int attempts;
-//    private string hint;
     private String name;
- /*   private int suceessesToPass;*/
-
-    /**
-     * Creates a new puzzel with the given id.
-     * @param id the puzzle id
-     */
 
     public Puzzle(String id, String description, String name/*, int successes*/) {
         this.id = id;
@@ -23,8 +16,6 @@ public abstract class Puzzle {
         this.isSolved = false;
         this.attempts = 0;
         this.name = name;
-//        this.suceessesToPass = successes;
-//        this.hint = this.solve();
     }
 
     // Getters
@@ -32,8 +23,7 @@ public abstract class Puzzle {
         return id;
     }
 
-    public String getDescription() { return description;
-    }
+    public String getDescription() { return description; }
 
     public boolean getIsSolved() {
         return isSolved;
@@ -43,11 +33,6 @@ public abstract class Puzzle {
 
     public String getName() {return name;}
 
-    /*public int getsuceessesToPass() {
-        return suceessesToPass;
-    }*/
-
-    // Marking a puzzle solved
     public void markSolved() {
         isSolved = true;
     }

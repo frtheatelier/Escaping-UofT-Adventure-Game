@@ -1,9 +1,8 @@
-package use_case.validateCardAnswer;
+package use_case.validate_card_answer;
 
 import java.util.List;
 import entity.Card;
 import entity.CardPuzzle;
-import entity.Player;
 
 public class ValidateCardAnswerInputData {
     /**

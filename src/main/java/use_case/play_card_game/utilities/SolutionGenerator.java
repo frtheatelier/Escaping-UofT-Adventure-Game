@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import entity.Card;
-import use_case.validateCardAnswer.utilities.Expression24Verifier;
-import use_case.validateCardAnswer.utilities.ExpressionEvaluator;
+import use_case.validate_card_answer.utilities.Expression24Verifier;
 
 public class SolutionGenerator {
     private static final List<String> OPERATORS = Arrays.asList("+", "-", "*", "/");
@@ -66,7 +65,7 @@ public class SolutionGenerator {
         return new ArrayList<>(solutions);
     }
 
-    public static String get24Solutions(List<Card> cards) {
+    public static String getFirstSolution(List<Card> cards) {
         List<Integer> numbers = new ArrayList<>();
         for (Card card : cards) {
             numbers.add(card.getValue());
@@ -112,23 +111,6 @@ public class SolutionGenerator {
 
         return "";
     }
-
-//    public static boolean isSolvable(List<Card> cards) {
-//        int numSol = find24Solutions(cards).size();
-//        return numSol != 0;
-//    }
-//
-//    private static void testExpression(Set<String> solutions, String expr, int target) {
-//        try {
-//            System.out.println("Call made: " + ExpressionEvaluator.evaluate(expr));
-//            if (Math.abs(ExpressionEvaluator.evaluate(expr) - target) < 0.0001) {
-//                solutions.add(expr);
-//                System.out.println("Solution found: " + expr);
-//            }
-//        } catch (Exception ignored) {
-//            System.out.println("exception");
-//        }
-//    }
 
     private static List<List<Integer>> generatePermutations(List<Integer> numbers) {
         List<List<Integer>> perms = new ArrayList<>();

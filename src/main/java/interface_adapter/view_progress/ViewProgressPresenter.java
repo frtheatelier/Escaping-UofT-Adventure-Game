@@ -4,7 +4,6 @@ import interface_adapter.navigate.NavigateState;
 import interface_adapter.navigate.NavigateViewModel;
 import use_case.view_progress.ViewProgressOutputBoundary;
 import use_case.view_progress.ViewProgressOutputData;
-import view.NavigateView;
 
 public class ViewProgressPresenter implements ViewProgressOutputBoundary {
 

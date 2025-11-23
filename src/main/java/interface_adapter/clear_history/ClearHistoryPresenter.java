@@ -10,13 +10,8 @@ public class ClearHistoryPresenter implements ClearHistoryOutputBoundary {
     public ClearHistoryPresenter(NavigateViewModel viewModel) {
         this.viewModel = viewModel;
     }
-    public void prepareSuccessView(String message) {
-//        viewModel.setMessage(message);  // UI update
-        // set up the nav model to inclue messages if need be because. ugh.
-    }
-    public void prepareFailView(String errorMessage) {
-//        viewModel.setMessage(errorMessage);
-    }
+    public void prepareSuccessView(String message) {}
+    public void prepareFailView(String errorMessage) {}
 
     @Override
     public void execute() {

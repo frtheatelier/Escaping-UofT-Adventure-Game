@@ -1,7 +1,5 @@
 package interface_adapter.win_game;
 
-import entity.Location;
-import entity.Player;
 import use_case.win_game.WinGameInputBoundary;
 import use_case.win_game.WinGameInputData;
 

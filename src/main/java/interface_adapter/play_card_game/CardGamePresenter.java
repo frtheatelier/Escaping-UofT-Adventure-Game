@@ -21,11 +21,9 @@ public class CardGamePresenter implements PlayCardGameOutputBoundary {
     @Override
     public void prepareSuccessView(PlayCardGameOutputData outputData) {
         CardGameState current = cardGameViewModel.getState();
-//        CardGameState newState = new CardGameState(current);
         current.setCardPuzzle(outputData.getCardPuzzle());
         current.setMessage(outputData.getMessage());
         current.setHint(""); // remember when i said to not set hint? yea. i forgot it doesn't reset when person regenerates q
-        //        cardGameViewModel.setState(current);
         cardGameViewModel.firePropertyChange();
 
         System.out.println("(Presenter) Card Puzzle: " + outputData.getCardPuzzle().getCardNumbers());
@@ -37,10 +35,8 @@ public class CardGamePresenter implements PlayCardGameOutputBoundary {
     @Override
     public void prepareFailView(String errorMessage) {
         CardGameState current = cardGameViewModel.getState();
-//        CardGameState newState = new CardGameState(current);
         current.setMessage(errorMessage);
         current.setCardPuzzle(null);
-//        cardGameViewModel.setState(current);
         cardGameViewModel.firePropertyChange();
 
         viewManagerModel.setState(cardGameViewModel.getViewName());

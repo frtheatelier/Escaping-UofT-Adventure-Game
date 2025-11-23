@@ -1,20 +1,9 @@
 package app;
 
-import data_access.FileGameDataAccessObject;
-
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-//        AppBuilder appBuilder = new AppBuilder();
-//        JFrame application = appBuilder
-//                // .add__Views()
-//                .build("game_save.json");
-//
-//        application.pack();
-//        application.setLocationRelativeTo(null);
-//        application.setVisible(true);
-
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -23,7 +12,6 @@ public class Main {
             }
 
             AppBuilder appBuilder = new AppBuilder();
-//            JFrame app = appBuilder.build("game_save.json");
             JFrame app = appBuilder.build("game_save.txt");
 
 

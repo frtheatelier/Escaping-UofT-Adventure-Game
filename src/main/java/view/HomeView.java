@@ -2,7 +2,6 @@ package view;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.navigate.NavigateViewModel;
-import view.NavigateView;
 
 import javax.swing.*;
 import java.awt.*;

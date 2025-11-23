@@ -239,7 +239,6 @@ public class AppBuilder {
         // trivia game dao is opentriviaapi i believe???
         TriviaGameController controller = new TriviaGameController(interactor);
         triviaGameView.setController(controller);
-        triviaGameView.setViewManagerModel();
 
         addView(triviaGameView, triviaGameViewModel.getViewName());
         return this;

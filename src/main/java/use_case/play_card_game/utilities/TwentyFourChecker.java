@@ -68,6 +68,7 @@ public class TwentyFourChecker {
     }
 
 
+
     // returns all possible values from x op y
     private static List<Double> generateResults(double x, double y) {
         List<Double> results = new ArrayList<>();

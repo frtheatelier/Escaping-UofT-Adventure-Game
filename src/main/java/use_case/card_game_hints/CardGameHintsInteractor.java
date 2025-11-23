@@ -14,9 +14,16 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
 
     public void execute(CardGameHintsInputDataObject input) {
         try {
-//            String hint = input.getCardPuzzle().giveHint();
+            String hint = "";
+
             List<Card> cards = input.getCardPuzzle().getCards();
-            String hint = getSampleSolution(cards);
+            String sol = getSampleSolution(cards);
+            if (sol == "") {
+                hint = "No solution found! Please regenerate the question.";
+            } else {
+//                System.out.println("Solution found! " + sol);
+                hint = "Maybe try " + extractInner(sol) + " first.";
+            }
 
             CardGameHintsOutputDataObject outputData = new CardGameHintsOutputDataObject(hint);
             this.outputBoundary.prepareSuccessView(outputData);
@@ -26,7 +33,7 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
     }
 
     public String getSampleSolution(List<Card> cards) {
-        return SolutionGenerator.find24Solutions(cards).get(0);
+        return SolutionGenerator.get24Solutions(cards);
     }
 
     public String extractInner(String solution) {
@@ -36,8 +43,8 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
             open = solution.lastIndexOf("(");
             close = solution.indexOf("))");
         } else if (solution.contains("((")) {
-            open = solution.indexOf(")");
-            close = solution.indexOf("((");
+            open = solution.indexOf("((") + 1; // bruh not ts getting flipped
+            close = solution.indexOf(")");
         } else {
             open = solution.indexOf("(");
             close = solution.indexOf(")");
@@ -45,9 +52,9 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
         return solution.substring(open + 1, close);
     }
 
-    public String generateHint(List<Card> cards) {
-        String sampleSolution = getSampleSolution(cards);
-        String substring = extractInner(sampleSolution);
-        return "Maybe try"+substring+"first.";
-    }
+//    public String generateHint(List<Card> cards) {
+//        String sampleSolution = getSampleSolution(cards);
+//        String substring = extractInner(sampleSolution);
+//        return "Maybe try"+substring+"first.";
+//    }
 }

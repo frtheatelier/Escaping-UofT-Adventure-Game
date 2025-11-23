@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import entity.Card;
+import use_case.validateCardAnswer.utilities.Expression24Verifier;
 import use_case.validateCardAnswer.utilities.ExpressionEvaluator;
 
 public class SolutionGenerator {
@@ -16,7 +17,60 @@ public class SolutionGenerator {
             numbers.add(card.getValue());
         }
 
+        System.out.println("Generating solutions for: " + numbers);
+
         Set<String> solutions = new HashSet<>();
+
+        List<List<Integer>> perms = generatePermutations(numbers);
+
+        System.out.println("Number of permutations: " + perms.size());
+
+        for (List<Integer> perm : perms) {
+            int a = perm.get(0);
+            int b = perm.get(1);
+            int c = perm.get(2);
+            int d = perm.get(3);
+
+            System.out.println("Testing: " + perm);
+
+            for (String op1 : OPERATORS) {
+                for (String op2 : OPERATORS) {
+                    for (String op3 : OPERATORS) {
+                        System.out.println("Ops: " + op1 + op2 + op3);
+
+                        // Test the 5 most common expression patterns for 24 game
+                        if (Expression24Verifier.isValidSolution("((" + a + op1 + b + ")" + op2 + c + ")" + op3 + d, cards)) {
+                            solutions.add("((" + a + op1 + b + ")" + op2 + c + ")" + op3 + d);
+                        }
+
+                        if (Expression24Verifier.isValidSolution("(" + a + op1 + "(" + b + op2 + c + "))" + op3 + d, cards)) {
+                            solutions.add("(" + a + op1 + "(" + b + op2 + c + "))" + op3 + d);
+                        }
+
+                        if (Expression24Verifier.isValidSolution("(" + a + op1 + b + ")" + op2 + "(" + c + op3 + d + ")", cards)) {
+                            solutions.add("(" + a + op1 + b + ")" + op2 + "(" + c + op3 + d + ")");
+                        }
+
+                        if (Expression24Verifier.isValidSolution(a + op1 + "((" + b + op2 + c + ")" + op3 + d + ")", cards)) {
+                            solutions.add(a + op1 + "((" + b + op2 + c + ")" + op3 + d + ")");
+                        }
+
+                        if (Expression24Verifier.isValidSolution(a + op1 + "(" + b + op2 + "(" + c + op3 + d + "))", cards)) {
+                            solutions.add(a + op1 + "(" + b + op2 + "(" + c + op3 + d + "))");
+                        }
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<>(solutions);
+    }
+
+    public static String get24Solutions(List<Card> cards) {
+        List<Integer> numbers = new ArrayList<>();
+        for (Card card : cards) {
+            numbers.add(card.getValue());
+        }
 
         List<List<Integer>> perms = generatePermutations(numbers);
 
@@ -26,37 +80,55 @@ public class SolutionGenerator {
             int c = perm.get(2);
             int d = perm.get(3);
 
+            System.out.println("Testing: " + perm);
+
             for (String op1 : OPERATORS) {
                 for (String op2 : OPERATORS) {
                     for (String op3 : OPERATORS) {
                         // Test the 5 most common expression patterns for 24 game
-                        testExpression(solutions, "((" + a + op1 + b + ")" + op2 + c + ")" + op3 + d, 24);
-                        testExpression(solutions, "(" + a + op1 + "(" + b + op2 + c + "))" + op3 + d, 24);
-                        testExpression(solutions, "(" + a + op1 + b + ")" + op2 + "(" + c + op3 + d + ")", 24);
-                        testExpression(solutions, a + op1 + "((" + b + op2 + c + ")" + op3 + d + ")", 24);
-                        testExpression(solutions, a + op1 + "(" + b + op2 + "(" + c + op3 + d + "))", 24);
+                        if (Expression24Verifier.isValidSolution("((" + a + op1 + b + ")" + op2 + c + ")" + op3 + d, cards)) {
+                            return "((" + a + op1 + b + ")" + op2 + c + ")" + op3 + d;
+                        }
+
+                        if (Expression24Verifier.isValidSolution("(" + a + op1 + "(" + b + op2 + c + "))" + op3 + d, cards)) {
+                            return "(" + a + op1 + "(" + b + op2 + c + "))" + op3 + d;
+                        }
+
+                        if (Expression24Verifier.isValidSolution("(" + a + op1 + b + ")" + op2 + "(" + c + op3 + d + ")", cards)) {
+                            return "(" + a + op1 + b + ")" + op2 + "(" + c + op3 + d + ")";
+                        }
+
+                        if (Expression24Verifier.isValidSolution(a + op1 + "((" + b + op2 + c + ")" + op3 + d + ")", cards)) {
+                            return a + op1 + "((" + b + op2 + c + ")" + op3 + d + ")";
+                        }
+
+                        if (Expression24Verifier.isValidSolution(a + op1 + "(" + b + op2 + "(" + c + op3 + d + "))", cards)) {
+                            return a + op1 + "(" + b + op2 + "(" + c + op3 + d + "))";
+                        }
                     }
                 }
             }
         }
 
-        return new ArrayList<>(solutions);
+        return "";
     }
 
-    public static boolean isSolvable(List<Card> cards) {
-        int numSol = find24Solutions(cards).size();
-        return numSol != 0;
-    }
-
-    private static void testExpression(Set<String> solutions, String expr, int target) {
-        try {
-            if (Math.abs(ExpressionEvaluator.evaluate(expr) - target) < 0.0001) {
-                solutions.add(expr);
-            }
-        } catch (Exception ignored) {
-
-        }
-    }
+//    public static boolean isSolvable(List<Card> cards) {
+//        int numSol = find24Solutions(cards).size();
+//        return numSol != 0;
+//    }
+//
+//    private static void testExpression(Set<String> solutions, String expr, int target) {
+//        try {
+//            System.out.println("Call made: " + ExpressionEvaluator.evaluate(expr));
+//            if (Math.abs(ExpressionEvaluator.evaluate(expr) - target) < 0.0001) {
+//                solutions.add(expr);
+//                System.out.println("Solution found: " + expr);
+//            }
+//        } catch (Exception ignored) {
+//            System.out.println("exception");
+//        }
+//    }
 
     private static List<List<Integer>> generatePermutations(List<Integer> numbers) {
         List<List<Integer>> perms = new ArrayList<>();

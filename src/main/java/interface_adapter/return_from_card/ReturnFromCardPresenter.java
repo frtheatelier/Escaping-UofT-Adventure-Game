@@ -21,12 +21,19 @@ public class ReturnFromCardPresenter implements CardReturnOutputBoundary{
     @Override
     public void changeView() {
         CardGameState current = cardGameViewModel.getState();
-        if (current.isSolved()) {
-            NavigateState state = this.navigateViewModel.getState();
+        NavigateState state = this.navigateViewModel.getState();
+        if (current.isSolved() && !state.getPuzzlesSolved().contains(current.getcardPuzzle().getName())) {
             state.addNumberOfKeys();
             state.addPuzzleSolved(current.getcardPuzzle().getName());
+            state.setStoryText("You solved the Math 24 puzzle! Where to next?");
+            System.out.println("(Return Presenter) is solved? " + current.isSolved() + " Keys: " + state.getNumberOfKeys());
             // updates number of keys and puzzles solved in the view model if the puzzle is solved
+
+//            this.navigateViewModel.firePropertyChange();
         }
+        state.setLocation();
+        this.navigateViewModel.firePropertyChange();
+
         this.viewManagerModel.setState(this.navigateViewModel.getViewName());
         this.viewManagerModel.firePropertyChange();
     }

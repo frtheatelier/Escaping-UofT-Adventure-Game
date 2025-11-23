@@ -1,4 +1,4 @@
-package use_case.play_card_game.utilities;
+package use_case.validateCardAnswer.utilities;
 
 import error.InvalidInputException;
 import java.lang.Integer;

@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.navigate.NavigateViewModel;
 import view.NavigateView;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ public class HomeView extends JPanel {
     private final ViewManagerModel viewManagerModel;
 
     public HomeView(ViewManagerModel viewManagerModel) {
+        System.out.println("HOME VIEW CREATED");
+
         this.viewManagerModel = viewManagerModel;
 
         this.setLayout(new BorderLayout());
@@ -44,8 +47,11 @@ public class HomeView extends JPanel {
 
         // Navigation
         startButton.addActionListener(e -> {
-            viewManagerModel.setState(NavigateView.VIEW_NAME);
+//            viewManagerModel.setState(NavigateView.VIEW_NAME);
+            viewManagerModel.setState(new NavigateViewModel().getViewName()); // ????
             viewManagerModel.firePropertyChange();
+
+            System.out.println("Current state: " + viewManagerModel.getState());
         });
 
         bottom.add(startButton);

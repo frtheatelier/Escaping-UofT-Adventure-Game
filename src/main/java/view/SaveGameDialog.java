@@ -1,5 +1,7 @@
 package view;
 
+import interface_adapter.navigate.NavigateState;
+import interface_adapter.navigate.NavigateViewModel;
 import interface_adapter.save_progress.SaveProgressController;
 
 import javax.swing.*;
@@ -8,9 +10,13 @@ import java.awt.*;
 public class SaveGameDialog extends JDialog {
 
     private SaveProgressController saveProgressController;
+    private NavigateViewModel navigateViewModel;
 
-    public SaveGameDialog(SaveProgressController saveProgressController) {
+    public SaveGameDialog(SaveProgressController saveProgressController, NavigateViewModel navigateViewModel) {
         this.saveProgressController = saveProgressController;
+        this.navigateViewModel = navigateViewModel;
+
+        NavigateState navigateState = navigateViewModel.getState();
 
         setTitle("Save Game");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -24,7 +30,7 @@ public class SaveGameDialog extends JDialog {
         JButton quitWithoutSaving = new JButton("Quit without saving");
 
         saveAndQuit.addActionListener(e -> {
-            this.saveProgressController.execute();
+            this.saveProgressController.execute(navigateState.getLocation(), navigateState.getNumberOfKeys(), navigateState.getPuzzlesSolved());
             closeGame();
         });
 

@@ -65,7 +65,6 @@ public class NavigateView extends javax.swing.JPanel {
         // init text
         keysLabel = new JLabel("Keys: 0 / 2");
         storyArea = new JTextArea("Welcome to Escaping UofT!\nSelect a direction to begin...");
-        final String[] progress = {"HELLOW WORLD"};
 
         // set up important text
         if (navigateViewModel != null) {
@@ -77,9 +76,6 @@ public class NavigateView extends javax.swing.JPanel {
                 NavigateState s = navigateViewModel.getState();
                 storyArea.setText(s.getStoryText());
                 keysLabel.setText("Keys: " + s.getNumberOfKeys() + " / 2");
-                progress[0] = s.getProgressText();
-
-                System.out.println(progress[0]);
             });
         } else {
             System.out.println("navigationViewModel is null");
@@ -168,8 +164,9 @@ public class NavigateView extends javax.swing.JPanel {
         });
 
         saveButton.addActionListener(e -> {
+            NavigateState s = navigateViewModel.getState();
             if (saveProgressController != null)
-                saveProgressController.execute();
+                saveProgressController.execute(s.getLocation(), s.getNumberOfKeys(), s.getPuzzlesSolved());
         });
 
         quitButton.addActionListener(e -> {
@@ -213,7 +210,8 @@ public class NavigateView extends javax.swing.JPanel {
     // SAVE PROGRESS BUTTON
     private JButton createSaveProgressButton() {
         JButton save = new JButton("Save");
-        save.addActionListener(evt -> saveProgressController.execute());
+        NavigateState s = navigateViewModel.getState();
+        save.addActionListener(evt -> saveProgressController.execute(s.getLocation(), s.getNumberOfKeys(), s.getPuzzlesSolved()));
 //        add(save);
 
         return save;
@@ -234,8 +232,8 @@ public class NavigateView extends javax.swing.JPanel {
 
         // set up runnable
 //        System.out.println("setting up runnable");
-        this.quitGameDialog = new QuitGameDialog(quitGameController, saveProgressController);
-        this.saveGameDialog = new SaveGameDialog(saveProgressController);
+        this.quitGameDialog = new QuitGameDialog(quitGameController, saveProgressController, navigateViewModel);
+        this.saveGameDialog = new SaveGameDialog(saveProgressController, navigateViewModel);
         this.quitGameController.setShowQuitDialog(() -> {
             System.out.println("Quitting (post)");
             quitGameDialog.show();

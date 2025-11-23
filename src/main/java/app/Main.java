@@ -23,7 +23,9 @@ public class Main {
             }
 
             AppBuilder appBuilder = new AppBuilder();
-            JFrame app = appBuilder.build("game_save.json");
+//            JFrame app = appBuilder.build("game_save.json");
+            JFrame app = appBuilder.build("game_save.txt");
+
 
             app.setLocationRelativeTo(null);
             app.setVisible(true);

@@ -37,11 +37,15 @@ public class FileGameDataAccessObject implements
      * @return true if save was successful, false otherwise
      */
     @Override
-    public boolean saveProgress() {
+    public boolean saveProgress(String currentLocation, int keysCollected, Set<String> solvedPuzzles) {
+        this.currentLocation = currentLocation;
+        this.keysCollected = keysCollected;
+        this.solvedPuzzles = solvedPuzzles;
+
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            writer.println(currentLocation);
-            writer.println(keysCollected);
-            writer.println(String.join(",", solvedPuzzles));
+            writer.println(this.currentLocation);
+            writer.println(this.keysCollected);
+            writer.println(String.join(",", this.solvedPuzzles));
             return true;
         } catch (IOException e) {
             System.err.println("Failed to save game: " + e.getMessage());

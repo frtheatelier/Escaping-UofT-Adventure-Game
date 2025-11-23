@@ -13,6 +13,11 @@ public class NavigateState{
     // PROGRESS TEXT BECAUSE THE VIEW MODEL AINT SHIT
     private String progressText = "";
 
+    // ALSO LOCATION BC WHY IS THE VIEW PROGRESS TAKING IN A DAI OBJECT ?????
+    // oh.
+    // actually never mind i get it but to be fair, i would imagine this to show in-game progress, not the one in the save file.
+    private String location = "King College Circle";
+
     public NavigateState() {
 //        this.currentLocationName = "";
         this.storyText = "";
@@ -65,5 +70,13 @@ public class NavigateState{
 
     public void addNumberOfKeys(int delta) {
         this.numberOfKeys += delta;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }

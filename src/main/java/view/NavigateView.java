@@ -15,6 +15,7 @@ import interface_adapter.quit_game.QuitGameController;
 import interface_adapter.win_game.WinGameController;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NavigateView extends javax.swing.JPanel {
     private ClearHistoryViewModel clearHistoryViewModel;
@@ -64,6 +65,7 @@ public class NavigateView extends javax.swing.JPanel {
         // init text
         keysLabel = new JLabel("Keys: 0 / 2");
         storyArea = new JTextArea("Welcome to Escaping UofT!\nSelect a direction to begin...");
+        final String[] progress = {"HELLOW WORLD"};
 
         // set up important text
         if (navigateViewModel != null) {
@@ -75,6 +77,9 @@ public class NavigateView extends javax.swing.JPanel {
                 NavigateState s = navigateViewModel.getState();
                 storyArea.setText(s.getStoryText());
                 keysLabel.setText("Keys: " + s.getNumberOfKeys() + " / 2");
+                progress[0] = s.getProgressText();
+
+                System.out.println(progress[0]);
             });
         } else {
             System.out.println("navigationViewModel is null");
@@ -157,6 +162,7 @@ public class NavigateView extends javax.swing.JPanel {
                 viewProgressController.execute();
                 // show dialog
                 JDialog progressDialog = new ProgressDialog(navigateViewModel.getState().getProgressText());
+//                JDialog progressDialog = new ProgressDialog(progress[0]);
                 progressDialog.setVisible(true);
             }
         });

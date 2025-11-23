@@ -12,6 +12,7 @@ public class NavigateState{
 
     // PROGRESS TEXT BECAUSE THE VIEW MODEL AINT SHIT
     private String progressText = "";
+    private int targetNumberOfKeys = 2;
 
     // ALSO LOCATION BC WHY IS THE VIEW PROGRESS TAKING IN A DAI OBJECT ?????
     // oh.
@@ -81,5 +82,9 @@ public class NavigateState{
 
     public String getLocation() {
         return location;
+    }
+
+    public int getTargetNumberOfKeys() {
+        return targetNumberOfKeys;
     }
 }

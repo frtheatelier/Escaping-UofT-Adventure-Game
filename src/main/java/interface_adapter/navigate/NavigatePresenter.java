@@ -45,7 +45,17 @@ public class NavigatePresenter implements NavigateOutputBoundary {
         String target = outputData.getTargetView().toLowerCase();
 
         switch (target) {
-            case "win game" -> viewManagerModel.setState(winGameViewModel.getViewName());
+            case "win game" -> {
+                NavigateState state = this.navigateViewModel.getState();
+                if (state.getNumberOfKeys() == state.getTargetNumberOfKeys()) {
+                    viewManagerModel.setState(winGameViewModel.getViewName());
+                } else {
+                    state.setStoryText("Oh no, you can't enter yet. You need to get " + (2-state.getNumberOfKeys()) + " more keys");
+                    this.navigateViewModel.firePropertyChange();
+
+                    // ok so this makes the whole controller then interactor bit useless lmaoaoaoa
+                }
+            }
             case "card game" -> {
                 updateNavigation(cardGameViewModel.getState().getLocationName());
                 viewManagerModel.setState(cardGameViewModel.getViewName());

@@ -29,8 +29,11 @@ public class ReturnFromCardPresenter implements CardReturnOutputBoundary{
             System.out.println("(Return Presenter) is solved? " + current.isSolved() + " Keys: " + state.getNumberOfKeys());
             // updates number of keys and puzzles solved in the view model if the puzzle is solved
 
-            this.navigateViewModel.firePropertyChange();
+//            this.navigateViewModel.firePropertyChange();
         }
+        state.setLocation();
+        this.navigateViewModel.firePropertyChange();
+
         this.viewManagerModel.setState(this.navigateViewModel.getViewName());
         this.viewManagerModel.firePropertyChange();
     }

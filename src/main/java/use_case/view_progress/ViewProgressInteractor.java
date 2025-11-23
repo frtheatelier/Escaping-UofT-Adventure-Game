@@ -5,14 +5,10 @@ import interface_adapter.navigate.NavigateViewModel;
 
 public class ViewProgressInteractor implements ViewProgressInputBoundary {
 
-    private final ViewProgressDataAccessInterface dataAccess;
     private final ViewProgressOutputBoundary presenter;
-
     private NavigateViewModel navigateViewModel;
 
-    public ViewProgressInteractor(ViewProgressDataAccessInterface dataAccess,
-                                  ViewProgressOutputBoundary presenter, NavigateViewModel navigateViewModel) {
-        this.dataAccess = dataAccess;
+    public ViewProgressInteractor(ViewProgressOutputBoundary presenter, NavigateViewModel navigateViewModel) {
         this.presenter = presenter;
         this.navigateViewModel = navigateViewModel;
     }

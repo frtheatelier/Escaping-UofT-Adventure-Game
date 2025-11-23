@@ -9,6 +9,7 @@ public class TriviaGameState {
     private boolean answeredCurrentQuestion;
 
     private String puzzleName = "trivia";
+    private String locationName = "University College";
 
     public TriviaGameState() {
         this.question = "";
@@ -56,4 +57,6 @@ public class TriviaGameState {
     }
 
     public String getPuzzleName() { return puzzleName; }
+
+    public String getLocationName() { return locationName; }
 }

@@ -42,23 +42,34 @@ public class NavigatePresenter implements NavigateOutputBoundary {
 
     @Override
     public void prepareSuccessView(NavigateOutputData2 outputData) {
-        switch (outputData.getTargetView().toLowerCase()) {
-            case "win game":
-                this.viewManagerModel.setState(winGameViewModel.getViewName());
-                break;
-            case "card game":
-                this.viewManagerModel.setState(cardGameViewModel.getViewName());
-                break;
-            case "trivia game":
-                this.viewManagerModel.setState(triviaGameViewModel.getViewName());
-                break;
+        String target = outputData.getTargetView().toLowerCase();
+
+        switch (target) {
+            case "win game" -> viewManagerModel.setState(winGameViewModel.getViewName());
+            case "card game" -> {
+                updateNavigation(cardGameViewModel.getState().getLocationName());
+                viewManagerModel.setState(cardGameViewModel.getViewName());
+            }
+            case "trivia game" -> {
+                updateNavigation(triviaGameViewModel.getState().getLocationName());
+                viewManagerModel.setState(triviaGameViewModel.getViewName());
+            }
+            default -> {
+                // optional: ignore or throw
+            }
         }
 
-        this.viewManagerModel.firePropertyChange();
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
-    public void prepareFailView(String error) {
+    public void prepareFailView(String error) { }
 
+    @Override
+    public void updateNavigation(String newLocation) {
+        NavigateState state = navigateViewModel.getState();
+        state.setLocation(newLocation);
+        navigateViewModel.firePropertyChange();
     }
+
 }

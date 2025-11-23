@@ -188,7 +188,7 @@ public class AppBuilder {
     public AppBuilder addViewProgressUseCase() {
         viewProgressViewModel = new ViewProgressViewModel();
         ViewProgressOutputBoundary presenter = new ViewProgressPresenter(navigateViewModel);
-        ViewProgressInputBoundary interactor = new ViewProgressInteractor(fileGameDataAccessObject, presenter, navigateViewModel);
+        ViewProgressInputBoundary interactor = new ViewProgressInteractor(presenter, navigateViewModel);
         // ngl i find this really dubious but fuck it i will FIGURE IT OUT
         ViewProgressController controller = new ViewProgressController(interactor);
 

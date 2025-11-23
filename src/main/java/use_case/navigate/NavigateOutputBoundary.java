@@ -14,4 +14,7 @@ public interface NavigateOutputBoundary {
     void prepareFailView(String error);
 
     void present(NavigateOutputData response);
+
+    void updateNavigation(String newLocation);
+
 }

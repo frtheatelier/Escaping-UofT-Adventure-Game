@@ -15,7 +15,6 @@ import interface_adapter.quit_game.QuitGameController;
 import interface_adapter.win_game.WinGameController;
 
 import java.awt.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class NavigateView extends javax.swing.JPanel {
     private ClearHistoryViewModel clearHistoryViewModel;
@@ -155,9 +154,10 @@ public class NavigateView extends javax.swing.JPanel {
 
         progressButton.addActionListener(e -> {
             if (viewProgressController != null) {
-                viewProgressController.execute();
+                NavigateState state = navigateViewModel.getState();
+                viewProgressController.execute(state.getLocation(), state.getNumberOfKeys(), state.getPuzzlesSolved());
                 // show dialog
-                JDialog progressDialog = new ProgressDialog(navigateViewModel.getState().getProgressText());
+                JDialog progressDialog = new ProgressDialog(state.getProgressText());
 //                JDialog progressDialog = new ProgressDialog(progress[0]);
                 progressDialog.setVisible(true);
             }
@@ -220,7 +220,8 @@ public class NavigateView extends javax.swing.JPanel {
     // VIEW PROGRESS BUTTON
     private JButton createViewProgressButton() {
         JButton view = new JButton("View Progress");
-        view.addActionListener(evt -> viewProgressController.execute());
+        NavigateState state = navigateViewModel.getState();
+        viewProgressController.execute(state.getLocation(), state.getNumberOfKeys(), state.getPuzzlesSolved());
 //        add(view);
         return view;
     }

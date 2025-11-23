@@ -1,26 +1,22 @@
 package use_case.view_progress;
 
-import interface_adapter.navigate.NavigateState;
 import interface_adapter.navigate.NavigateViewModel;
 
 public class ViewProgressInteractor implements ViewProgressInputBoundary {
 
     private final ViewProgressOutputBoundary presenter;
-    private NavigateViewModel navigateViewModel;
 
-    public ViewProgressInteractor(ViewProgressOutputBoundary presenter, NavigateViewModel navigateViewModel) {
+    public ViewProgressInteractor(ViewProgressOutputBoundary presenter) {
         this.presenter = presenter;
-        this.navigateViewModel = navigateViewModel;
     }
 
     @Override
-    public void execute() {
+    public void execute(ViewProgressInputData inputData) {
         System.out.println("Executing ViewProgressInteractor");
 
-        NavigateState state = navigateViewModel.getState();
-        String loc = state.getLocation();
-        int keys = state.getNumberOfKeys();
-        var puzzles = state.getPuzzlesSolved();
+        String loc = inputData.getLocation();
+        int keys = inputData.getKeys();
+        var puzzles = inputData.getPuzzles();
 
         System.out.println(loc);
 

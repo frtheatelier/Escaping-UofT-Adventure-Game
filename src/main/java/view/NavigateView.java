@@ -171,7 +171,7 @@ public class NavigateView extends javax.swing.JPanel {
 
         quitButton.addActionListener(e -> {
             if (quitGameController != null) {
-                quitGameController.showQuit();
+                quitGameController.executeRequestQuit();
             }
         });
 
@@ -192,15 +192,8 @@ public class NavigateView extends javax.swing.JPanel {
     }
 
     // QUIT GAME CONTROLLER
-    public void setQuitGameController(QuitGameController quitGameController,
-                                      SaveProgressController saveProgressController) {
+    public void setQuitGameController(QuitGameController quitGameController) {
         this.quitGameController = quitGameController;
-
-        // set up runnable
-        this.quitGameDialog = new QuitGameDialog(quitGameController, saveProgressController, navigateViewModel);
-        this.saveGameDialog = new SaveGameDialog(saveProgressController, navigateViewModel);
-        this.quitGameController.setShowQuitDialog(() -> quitGameDialog.show());
-        this.quitGameController.setShowSaveDialog(() -> saveGameDialog.show());
     }
 
     // CLEAR GAME CONTROLLER

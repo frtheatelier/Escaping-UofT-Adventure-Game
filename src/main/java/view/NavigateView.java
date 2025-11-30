@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 
 import interface_adapter.navigate.NavigateController;
-import interface_adapter.clear_history.ClearHistoryViewModel;
+//import interface_adapter.clear_history.ClearHistoryViewModel;
 
 import interface_adapter.clear_history.ClearHistoryController;
 import interface_adapter.navigate.NavigateState;
@@ -17,7 +17,7 @@ import interface_adapter.win_game.WinGameController;
 import java.awt.*;
 
 public class NavigateView extends javax.swing.JPanel {
-    private ClearHistoryViewModel clearHistoryViewModel;
+//    private ClearHistoryViewModel clearHistoryViewModel;
 
     public static final String VIEW_NAME = "navigate_view";
 
@@ -31,11 +31,6 @@ public class NavigateView extends javax.swing.JPanel {
 
     // VIEW MODEL
     private NavigateViewModel  navigateViewModel;
-
-    // DIALOGS
-    private QuitGameDialog quitGameDialog;
-    private SaveGameDialog saveGameDialog;
-    private ConfirmRestartGameDialog confirmRestartGameDialog;
 
     // NAV UI
     private JTextArea storyArea;
@@ -149,7 +144,7 @@ public class NavigateView extends javax.swing.JPanel {
 
         restartButton.addActionListener(e -> {
             if (clearHistoryController != null) {
-                clearHistoryController.showConfirm();
+                clearHistoryController.showConfirmDialog();
             }
         });
 
@@ -199,10 +194,6 @@ public class NavigateView extends javax.swing.JPanel {
     // CLEAR GAME CONTROLLER
     public void setClearHistoryController(ClearHistoryController clearHistoryController) {
         this.clearHistoryController = clearHistoryController;
-
-        // set up runnable
-        this.confirmRestartGameDialog = new ConfirmRestartGameDialog(clearHistoryController);
-        this.clearHistoryController.setShowConfirmDialog(() -> confirmRestartGameDialog.show());
     }
 
     // SAVE PROGRESS CONTROLLER
@@ -223,10 +214,5 @@ public class NavigateView extends javax.swing.JPanel {
     // ACTION LISTENERS
     public void setNavigateController(NavigateController navigateController) {
            this.navigateController = navigateController;
-    }
-
-    public void setClearHistoryViewModel(ClearHistoryViewModel vm) {
-        this.clearHistoryViewModel = vm;
-        vm.addPropertyChangeListener(evt -> JOptionPane.showMessageDialog(this, vm.getMessage()));
     }
 }

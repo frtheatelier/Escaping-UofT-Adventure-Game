@@ -12,6 +12,7 @@ import interface_adapter.card_game_hints.CardGameHintsController;
 import interface_adapter.card_game_hints.CardGameHintsPresenter;
 import interface_adapter.clear_history.ClearHistoryController;
 import interface_adapter.clear_history.ClearHistoryPresenter;
+import interface_adapter.clear_history.ClearHistoryViewModel;
 import interface_adapter.navigate.NavigateController;
 import interface_adapter.navigate.NavigatePresenter;
 import interface_adapter.navigate.NavigateViewModel;
@@ -38,7 +39,7 @@ import use_case.card_return_to_home.CardReturnInputBoundary;
 import use_case.card_return_to_home.CardReturnInteractor;
 import use_case.card_return_to_home.CardReturnOutputBoundary;
 import use_case.clear_history.ClearHistoryInputBoundary;
-import interface_adapter.clear_history.ClearHistoryViewModel;
+//import interface_adapter.clear_history.ClearHistoryViewModel;
 import use_case.clear_history.ClearHistoryInteractor;
 import use_case.clear_history.ClearHistoryOutputBoundary;
 import use_case.navigate.NavigateInputBoundary;
@@ -92,12 +93,12 @@ public class AppBuilder {
 
     // ViewModels
     private NavigateViewModel navigateViewModel;
-    private ClearHistoryViewModel clearHistoryViewModel;
     private ViewProgressViewModel viewProgressViewModel;
     private WinGameViewModel winGameViewModel;
     private CardGameViewModel cardGameViewModel;
     private TriviaGameViewModel triviaGameViewModel;
     private QuitGameViewModel quitGameViewModel;
+    private ClearHistoryViewModel clearHistoryViewModel;
 
     // Views
     private HomeView homeView;
@@ -162,13 +163,12 @@ public class AppBuilder {
     // Clear History Use Case
     // i am... not entirely sure why there is a view model but go off ig
     public AppBuilder addClearHistoryUseCase() {
-        ClearHistoryOutputBoundary presenter = new ClearHistoryPresenter(navigateViewModel);
+        ClearHistoryOutputBoundary presenter = new ClearHistoryPresenter(navigateViewModel, clearHistoryViewModel);
         ClearHistoryInputBoundary interactor = new ClearHistoryInteractor(presenter);
         ClearHistoryController controller = new ClearHistoryController(interactor);
-        controller.setShowConfirmDialog(() -> confirmRestartGameDialog.show());
 
         navigateView.setClearHistoryController(controller);
-        confirmRestartGameDialog = new ConfirmRestartGameDialog(controller);
+        confirmRestartGameDialog = new ConfirmRestartGameDialog(controller, clearHistoryViewModel);
         return this;
     }
 
@@ -177,7 +177,6 @@ public class AppBuilder {
         viewProgressViewModel = new ViewProgressViewModel();
         ViewProgressOutputBoundary presenter = new ViewProgressPresenter(navigateViewModel);
         ViewProgressInputBoundary interactor = new ViewProgressInteractor(presenter);
-        // ngl i find this really dubious but fuck it i will FIGURE IT OUT
         ViewProgressController controller = new ViewProgressController(interactor);
 
         navigateView.setViewProgressController(controller);
@@ -241,10 +240,7 @@ public class AppBuilder {
     // Trivia Use Case
     public AppBuilder addTriviaGameUseCase() {
         TriviaGameOutputBoundary presenter = new TriviaGamePresenter(triviaGameViewModel, navigateViewModel, viewManagerModel);
-        // ok IDK NUMBER OF CORRECT ANSWERS REQUIRED SO SKDJFHSLKDFKJ yea no shit
-        // also why is the puzzle entity passed sdkjfhskdfhdskf aaaaaaaaaaaaaaa
         TriviaGameInputBoundary interactor = new TriviaGameInteractor(new OpenTriviaAPI(), presenter, new TriviaPuzzle(3));
-        // trivia game dao is opentriviaapi i believe???
         TriviaGameController controller = new TriviaGameController(interactor);
         triviaGameView.setController(controller);
 
@@ -271,23 +267,20 @@ public class AppBuilder {
 
         // ViewModels
         navigateViewModel = new NavigateViewModel();
-        clearHistoryViewModel = new ClearHistoryViewModel();
         cardGameViewModel = new CardGameViewModel();
         triviaGameViewModel = new TriviaGameViewModel();
         winGameViewModel = new WinGameViewModel();
         viewProgressViewModel = new ViewProgressViewModel();
         quitGameViewModel = new QuitGameViewModel();
+        clearHistoryViewModel = new ClearHistoryViewModel();
 
         // Create Views
         homeView = new HomeView(viewManagerModel);
         navigateView = new NavigateView(navigateViewModel);
-        instructionsView = new InstructionsView(); // i have. no idea if this exists and how it's implemented but go off
+        instructionsView = new InstructionsView();
         cardGameView = new CardGameView(cardGameViewModel);
         triviaGameView = new TriviaGameView(triviaGameViewModel);
         winGameView = new WinGameView(winGameViewModel);
-
-        // Set VM
-        navigateView.setClearHistoryViewModel(clearHistoryViewModel);
 
         // Register views
         // switch the name to something from view model because consistency and also. what.

@@ -9,8 +9,8 @@ import use_case.trivia_game.TriviaGameOutputData;
 public class TriviaGamePresenter implements TriviaGameOutputBoundary {
     private final TriviaGameViewModel viewModel;
 
-    private NavigateViewModel navigateViewModel;
-    private ViewManagerModel viewManagerModel;
+    private final NavigateViewModel navigateViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     public TriviaGamePresenter(TriviaGameViewModel viewModel, NavigateViewModel navigateViewModel, ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
@@ -48,21 +48,15 @@ public class TriviaGamePresenter implements TriviaGameOutputBoundary {
         NavigateState navState = navigateViewModel.getState();
 
         if (state.isPuzzleSolved() && !navState.getPuzzlesSolved().contains(state.getPuzzleName())) {
-            System.out.println("Trivia Puzzle Solved");
             navState.addNumberOfKeys();
             navState.addPuzzleSolved(state.getPuzzleName());
             navState.setStoryText("Good job on solving the trivia puzzle.\nWhere would you like to go next?");
-
-            System.out.println("Keys (1): " + navState.getNumberOfKeys());
-//            navigateViewModel.firePropertyChange();
-            System.out.println("Keys (2): " + navigateViewModel.getState().getNumberOfKeys());
         }
 
         navState.setLocation();
         this.navigateViewModel.firePropertyChange();
 
         this.viewManagerModel.setState(navigateViewModel.getViewName());
-        System.out.println("Keys (3): " + navigateViewModel.getState().getNumberOfKeys());
         this.viewManagerModel.firePropertyChange();
     }
 }

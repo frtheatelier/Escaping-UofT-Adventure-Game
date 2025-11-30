@@ -1,4 +1,4 @@
-package use_case.validateCardAnswer.utilities;
+package use_case.validate_card_answer.utilities;
 
 import entity.Card;
 
@@ -59,13 +59,13 @@ public class Expression24Verifier {
             if (Character.isDigit(c)) {
                 sb.append(c);
             } else {
-                if (sb.length() > 0) {
+                if (!sb.isEmpty()) {
                     nums.add(Integer.parseInt(sb.toString()));
                     sb.setLength(0);
                 }
             }
         }
-        if (sb.length() > 0) {
+        if (!sb.isEmpty()) {
             nums.add(Integer.parseInt(sb.toString()));
         }
         return nums;
@@ -92,7 +92,7 @@ public class Expression24Verifier {
                 num.append(c);
                 continue;
             }
-            if (num.length() > 0) {
+            if (!num.isEmpty()) {
                 output.add(num.toString());
                 num.setLength(0);
             }
@@ -114,7 +114,7 @@ public class Expression24Verifier {
             }
         }
 
-        if (num.length() > 0) output.add(num.toString());
+        if (!num.isEmpty()) output.add(num.toString());
         while (!ops.isEmpty()) output.add("" + ops.pop());
 
         return output;
@@ -123,7 +123,7 @@ public class Expression24Verifier {
     private static double evalRPN(List<String> rpn) {
         Stack<Double> stack = new Stack<>();
         for (String token : rpn) {
-            if (token.matches("[0-9]+")) {
+            if (token.matches("\\d+")) {
                 stack.push(Double.parseDouble(token));
             } else {
                 double b = stack.pop();
@@ -136,6 +136,7 @@ public class Expression24Verifier {
                         if (Math.abs(b) < EPS) throw new ArithmeticException("div0");
                         stack.push(a / b);
                     }
+                    default -> {}
                 }
             }
         }

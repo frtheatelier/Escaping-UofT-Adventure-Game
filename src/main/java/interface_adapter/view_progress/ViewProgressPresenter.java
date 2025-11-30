@@ -4,7 +4,6 @@ import interface_adapter.navigate.NavigateState;
 import interface_adapter.navigate.NavigateViewModel;
 import use_case.view_progress.ViewProgressOutputBoundary;
 import use_case.view_progress.ViewProgressOutputData;
-import view.NavigateView;
 
 public class ViewProgressPresenter implements ViewProgressOutputBoundary {
 
@@ -21,13 +20,8 @@ public class ViewProgressPresenter implements ViewProgressOutputBoundary {
                 + "Keys collected: " + data.getKeysCollected() + "\n"
                 + "Solved puzzles: " + data.getSolvedPuzzles();
 
-        System.out.println(text);
-
         NavigateState current = viewModel.getState();
         current.setProgressText(text);
         viewModel.firePropertyChange();
-
-        // BRO YOU DO ALL THIS BUT HOW??? DO YOU WAWNT TO SHOW IT??????? MY BRO MY GUY WHAT
-        // which is why i changed it to modify navigate state bc button only exists there.
     }
 }

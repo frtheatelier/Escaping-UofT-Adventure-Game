@@ -16,9 +16,10 @@ public class FileGameDataAccessObject implements
         ViewProgressDataAccessInterface {
 
     private final String filePath;
+    private static final String DEFAULT_LOCATION = "Kings College Circle";
 
     // Current game state (in-memory)
-    private String currentLocation = "Kings College Circle";
+    private String currentLocation = DEFAULT_LOCATION;
     private int keysCollected = 0;
     private Set<String> solvedPuzzles = new HashSet<>();
 
@@ -66,7 +67,7 @@ public class FileGameDataAccessObject implements
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             currentLocation = reader.readLine();
             if (currentLocation == null) {
-                currentLocation = "Kings College Circle";
+                currentLocation = DEFAULT_LOCATION;
             }
 
             String keysLine = reader.readLine();
@@ -87,7 +88,7 @@ public class FileGameDataAccessObject implements
         } catch (IOException | NumberFormatException e) {
             System.err.println("Failed to load game: " + e.getMessage());
             // Reset to defaults on error
-            currentLocation = "Kings College Circle";
+            currentLocation = DEFAULT_LOCATION;
             keysCollected = 0;
             solvedPuzzles = new HashSet<>();
         }
@@ -150,7 +151,7 @@ public class FileGameDataAccessObject implements
      * Clears all game progress, resetting to starting values.
      */
     public void clearProgress() {
-        this.currentLocation = "Kings College Circle";
+        this.currentLocation = DEFAULT_LOCATION;
         this.keysCollected = 0;
         this.solvedPuzzles.clear();
     }

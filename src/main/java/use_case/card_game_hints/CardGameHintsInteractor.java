@@ -4,6 +4,7 @@ import entity.Card;
 import use_case.play_card_game.utilities.SolutionGenerator;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
     private final CardGameHintsOutputBoundary outputBoundary;
@@ -18,10 +19,9 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
 
             List<Card> cards = input.getCardPuzzle().getCards();
             String sol = getSampleSolution(cards);
-            if (sol == "") {
+            if (Objects.equals(sol, "")) {
                 hint = "No solution found! Please regenerate the question.";
             } else {
-//                System.out.println("Solution found! " + sol);
                 hint = "Maybe try " + extractInner(sol) + " first.";
             }
 
@@ -33,7 +33,7 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
     }
 
     public String getSampleSolution(List<Card> cards) {
-        return SolutionGenerator.get24Solutions(cards);
+        return SolutionGenerator.getFirstSolution(cards);
     }
 
     public String extractInner(String solution) {
@@ -51,10 +51,4 @@ public class CardGameHintsInteractor implements CardGameHintsInputDataBoundary{
         }
         return solution.substring(open + 1, close);
     }
-
-//    public String generateHint(List<Card> cards) {
-//        String sampleSolution = getSampleSolution(cards);
-//        String substring = extractInner(sampleSolution);
-//        return "Maybe try"+substring+"first.";
-//    }
 }

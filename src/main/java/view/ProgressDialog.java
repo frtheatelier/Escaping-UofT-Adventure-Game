@@ -7,7 +7,6 @@ public class ProgressDialog extends JDialog {
     public ProgressDialog(String message) {
 
         String[] sep = message.split("\n");
-//        System.out.println(sep[0]);
 
         setTitle("Current Progress");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -27,7 +26,6 @@ public class ProgressDialog extends JDialog {
         close.addActionListener(e -> dispose());
         buttons.add(close);
 
-//        add(title, BorderLayout.NORTH);
         add(textPanel, BorderLayout.NORTH);
         add(buttons, BorderLayout.SOUTH);
 

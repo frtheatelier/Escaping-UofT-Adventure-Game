@@ -10,11 +10,9 @@ import java.awt.*;
 public class SaveGameDialog extends JDialog {
 
     private SaveProgressController saveProgressController;
-    private NavigateViewModel navigateViewModel;
 
     public SaveGameDialog(SaveProgressController saveProgressController, NavigateViewModel navigateViewModel) {
         this.saveProgressController = saveProgressController;
-        this.navigateViewModel = navigateViewModel;
 
         NavigateState navigateState = navigateViewModel.getState();
 

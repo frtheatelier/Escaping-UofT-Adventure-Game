@@ -5,7 +5,6 @@ import interface_adapter.play_card_game.CardGameViewModel;
 import interface_adapter.trivia_game.TriviaGameViewModel;
 import interface_adapter.win_game.WinGameViewModel;
 import use_case.navigate.NavigateOutputBoundary;
-import use_case.navigate.NavigateOutputData;
 import use_case.navigate.NavigateOutputData2;
 
 /**
@@ -26,18 +25,6 @@ public class NavigatePresenter implements NavigateOutputBoundary {
         this.winGameViewModel = winGameViewModel;
         this.cardGameViewModel = cardGameViewModel;
         this.triviaGameViewModel = triviaGameViewModel;
-    }
-
-    @Override
-    public void present(NavigateOutputData outputData) {
-
-        // Getting the current state
-        NavigateState state = navigateViewModel.getState();
-        // Update fields (story + direction)
-        state.setStoryText(outputData.getStoryText());
-        state.setDirection(outputData.getDirection());
-        // Notify NavigateView to refresh UI
-        navigateViewModel.firePropertyChange();
     }
 
     @Override

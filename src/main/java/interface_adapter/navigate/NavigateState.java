@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NavigateState{
-//    private String currentLocationName; // not sure if it's necessary // never mind it is important in displaying progress lol
     private Set<String> puzzlesSolved; // store puzzle name or id or whatever
     private int numberOfKeys;
     private String storyText;
